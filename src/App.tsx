@@ -46,7 +46,7 @@ function App() {
         </a>
       </div>
 
-      <SecretSantaEventManager />
+      {/* <SecretSantaEventManager /> */}
 
       <button onClick={signOut}>Sign out</button>
     </main>

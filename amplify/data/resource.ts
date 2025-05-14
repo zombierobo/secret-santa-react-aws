@@ -12,6 +12,31 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.owner()]),
+  Event: a
+    .model({
+      name: a.string().required(),
+      // description: a.string(),
+      // drawDate: a.date(),
+      // giftDate: a.date(),
+      // giftBudget: a.string(),
+      // 3. Create a hasMany relationship with the reference field
+      //    from the `Member`s model.
+      // participants: a.hasMany('Participant', 'eventID'),
+    }).authorization((allow) => [allow.owner()]),
+  
+  /*
+  Participant: a
+    .model({
+      name: a.string().required(),
+      email: a.string(),
+      giftPreferences: a.string().array(),
+      // 1. Create a reference field
+      eventId: a.id(),
+      matchedParticipantId: a.string(),
+      // 2. Create a belongsTo relationship with the reference field
+      event: a.belongsTo('Event', 'eventId'),
+    }).authorization((allow) => [allow.owner()]),
+  */
 });
 
 export type Schema = ClientSchema<typeof schema>;

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import type { Schema } from "../../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
+
 import { Link } from "react-router-dom";
 
-const client = generateClient<Schema>();
+import type { EventType } from "../../amplify/data/exported-types";
+import { client } from "../../amplify/data/exported-types";
 
 function EventListPage() {
-  const [events, setEvents] = useState<Array<Schema["Event"]["type"]>>([]);
+  const [events, setEvents] = useState<Array<EventType>>([]);
   useEffect(() => {
     client.models.Event.observeQuery().subscribe({
       next: (data) => setEvents([...data.items]),

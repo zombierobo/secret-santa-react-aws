@@ -14,17 +14,16 @@ const schema = a.schema({
     .authorization((allow) => [allow.owner()]),
   Event: a
     .model({
-      name: a.string().required(),
+      name: a.string().required()
+        .authorization(allow => [allow.guest().to(["read"]),]),
       // description: a.string(),
       // drawDate: a.date(),
       // giftDate: a.date(),
       // giftBudget: a.string(),
       // 3. Create a hasMany relationship with the reference field
       //    from the `Member`s model.
-      participants: a.hasMany('Participant', 'eventId')
-        .authorization(allow => [allow.owner()]),
+      participants: a.hasMany('Participant', 'eventId'),
     }).authorization((allow) => [
-      allow.guest().to(["read"]),
       allow.owner()
     ]),
   

@@ -9,7 +9,10 @@ function ParticipantJoinEventLandingPage() {
   useEffect(() => {
     (async function () {
       if (eventId) {
-        const res = await client.models.Event.get({ id: eventId });
+        const res = await client.models.Event.get(
+          { id: eventId },
+          { authMode: "identityPool" }
+        );
         const eventData: EventType | null = res.data;
         if (eventData) {
           setEvent(eventData);

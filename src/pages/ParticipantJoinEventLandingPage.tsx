@@ -9,7 +9,7 @@ function ParticipantJoinEventLandingPage() {
   useEffect(() => {
     (async function () {
       if (eventId) {
-        const { data } =
+        const { data, errors } =
           await client.queries.participantLandingPageEventDetails(
             {
               eventId,
@@ -19,6 +19,9 @@ function ParticipantJoinEventLandingPage() {
 
         if (data) {
           setEventName(data.eventName);
+        }
+        if (errors) {
+          console.error("participant details page", errors);
         }
       } else {
         console.error("Event id is missing");

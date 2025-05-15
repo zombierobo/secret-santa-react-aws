@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import type {
-  ParticipantType,
-  EventType,
-} from "../../amplify/data/exported-types";
+import type { EventType } from "../../amplify/data/exported-types";
 import { client } from "../../amplify/data/exported-types";
 import { useParams } from "react-router-dom";
 
 function ParticipantJoinEventLandingPage() {
   const { eventId } = useParams();
-  const [event, setEvent] = useState<EventType>();
+  const [_, setEvent] = useState<EventType>();
   useEffect(() => {
     (async function () {
       if (eventId) {
@@ -19,7 +16,6 @@ function ParticipantJoinEventLandingPage() {
         }
       } else {
         console.error("Event id is missing");
-        window.alert("Event id is missing");
       }
     })();
   }, []);

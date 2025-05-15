@@ -15,13 +15,14 @@ function EventDetailsPage() {
     (async function () {
       if (eventId) {
         const res = await client.models.Event.get({ id: eventId });
-        console.log("response", res);
         const eventData: EventType | null = res.data;
         if (eventData) {
           setEvent(eventData);
           const participantsData = await eventData.participants();
           setParticipants(participantsData.data ?? []);
         }
+      } else {
+        console.error("Event id is missing");
       }
     })();
   }, []);

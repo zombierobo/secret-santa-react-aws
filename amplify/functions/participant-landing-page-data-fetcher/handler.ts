@@ -4,8 +4,9 @@ import { generateClient } from "aws-amplify/data";
 import { getAmplifyDataClientConfig } from "@aws-amplify/backend/function/runtime";
 import { env } from "$amplify/env/participant-landing-page-data-fetcher"; // the import is '$amplify/env/<function-name>'
 
-const { resourceConfig, libraryOptions } =
-  await getAmplifyDataClientConfig(env);
+const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(
+  env as any
+);
 
 Amplify.configure(resourceConfig, libraryOptions);
 

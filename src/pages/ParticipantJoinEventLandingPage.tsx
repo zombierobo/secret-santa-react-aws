@@ -1,32 +1,25 @@
 import { useEffect, useState } from "react";
-import type { EventType } from "../../amplify/data/exported-types";
+
 import { client } from "../../amplify/data/exported-types";
 import { useParams } from "react-router-dom";
 
 function ParticipantJoinEventLandingPage() {
   const { eventId } = useParams();
-  const [event, _setEvent] = useState<EventType>();
+  const [eventName, setEventName] = useState<string>();
   useEffect(() => {
     (async function () {
       if (eventId) {
-        const { data, errors } =
-          await client.queries.participantLandingPageEventDetails({
-            eventId,
-          });
-        console.log("Event data", data, errors);
+        const { data } =
+          await client.queries.participantLandingPageEventDetails(
+            {
+              eventId,
+            },
+            { authMode: "identityPool" }
+          );
 
-        // const res = await client.models.Event.get(
-        //   { id: eventId },
-        //   { authMode: "identityPool" }
-        // );
-        // const eventData: EventType | null = res.data;
-        // if (eventData) {
-        //   setEvent(eventData);
-        //   console.log("Participant event data", eventData);
-
-        //   const participantsdata = await eventData.participants();
-        //   console.log("participantsdata", participantsdata);
-        // }
+        if (data) {
+          setEventName(data.eventName);
+        }
       } else {
         console.error("Event id is missing");
       }
@@ -34,11 +27,9 @@ function ParticipantJoinEventLandingPage() {
   }, []);
   return (
     <div>
-      {event?.name ? (
+      {eventName ? (
         <>
-          <h1>
-            Are you interested in joining secret santa event {event.name}{" "}
-          </h1>
+          <h1>Are you interested in joining secret santa event {eventName} </h1>
         </>
       ) : null}
     </div>

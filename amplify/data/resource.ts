@@ -21,7 +21,7 @@ const schema = a.schema({
       // giftBudget: a.string(),
       // 3. Create a hasMany relationship with the reference field
       //    from the `Member`s model.
-      participants: a.hasMany('Participant', 'eventID'),
+      participants: a.hasMany('Participant', 'eventId'),
     }).authorization((allow) => [allow.owner()]),
   
 

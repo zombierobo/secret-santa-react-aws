@@ -13,7 +13,7 @@ function ParticipantJoinEventLandingPage() {
     (async function () {
       if (eventId) {
         const { data, errors } =
-          await client.queries.participantLandingPageEventDetails(
+          await client.queries.participantLandingPageDataFetcher(
             {
               eventId,
             },

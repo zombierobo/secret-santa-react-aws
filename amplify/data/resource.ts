@@ -1,11 +1,8 @@
-import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/backend";
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { participantLandingPageDataFetcher } from "../functions/participant-landing-page-data-fetcher/resource";
 
 
-// custom lambda handlers
 
-const participantLandingPageEventDetailsHandler = defineFunction({
-  entry: './participantLandingPageEventDetails-handler/handler.ts'
-})
 
 
 const schema = a.schema({
@@ -40,14 +37,14 @@ const schema = a.schema({
     organizerName: a.string().required()
   }),
 
-  participantLandingPageEventDetails: a
+  participantLandingPageDataFetcher: a
     .query()
     .arguments({
       eventId: a.string().required()
     })
     .returns(a.ref('ParticipantLandingEventDetailsResponse'))
     .authorization(allow => [allow.guest()])
-    .handler(a.handler.function(participantLandingPageEventDetailsHandler))
+    .handler(a.handler.function(participantLandingPageDataFetcher))
 });
 
 export type Schema = ClientSchema<typeof schema>;

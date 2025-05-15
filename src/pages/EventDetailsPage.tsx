@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import ParticipantsManagerTable from "./ParticipantsManagerTable";
 
 function EventDetailsPage() {
-  let { id: eventId } = useParams();
+  const { eventId } = useParams();
   const [event, setEvent] = useState<EventType>();
   const [participants, setParticipants] = useState<Array<ParticipantType>>([]);
   useEffect(() => {
@@ -35,12 +35,14 @@ function EventDetailsPage() {
       participant && setParticipants((prev) => prev.concat(participant));
     })();
   }
+
   return (
     <main>
       <h1>Secret Santa Event name: {event?.name}</h1>
       <ParticipantsManagerTable
         participants={participants}
         addParticipant={createParticipant}
+        eventId={eventId ?? ""}
       />
     </main>
   );

@@ -5,18 +5,28 @@ import { useParams } from "react-router-dom";
 
 function ParticipantJoinEventLandingPage() {
   const { eventId } = useParams();
-  const [event, setEvent] = useState<EventType>();
+  const [event, _setEvent] = useState<EventType>();
   useEffect(() => {
     (async function () {
       if (eventId) {
-        const res = await client.models.Event.get(
-          { id: eventId },
-          { authMode: "identityPool" }
-        );
-        const eventData: EventType | null = res.data;
-        if (eventData) {
-          setEvent(eventData);
-        }
+        const { data, errors } =
+          await client.queries.participantLandingPageEventDetails({
+            eventId,
+          });
+        console.log("Event data", data, errors);
+
+        // const res = await client.models.Event.get(
+        //   { id: eventId },
+        //   { authMode: "identityPool" }
+        // );
+        // const eventData: EventType | null = res.data;
+        // if (eventData) {
+        //   setEvent(eventData);
+        //   console.log("Participant event data", eventData);
+
+        //   const participantsdata = await eventData.participants();
+        //   console.log("participantsdata", participantsdata);
+        // }
       } else {
         console.error("Event id is missing");
       }

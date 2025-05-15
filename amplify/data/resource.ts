@@ -1,4 +1,11 @@
-import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/backend";
+
+
+// handlers
+
+const participantLandingPageEventDetailsHandler = defineFunction({
+  entry: './participantLandingPageEventDetails-handler/handler.ts'
+})
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -43,6 +50,24 @@ const schema = a.schema({
       event: a.belongsTo('Event', 'eventId'),
     }).authorization((allow) => [allow.owner()]),
 
+  
+  ParticipantLandingEventDetailsResponse: a.customType({
+    eventName: a.string(),
+    organizerName: a.string()
+  }),
+
+  // 2. Define your query with the return type and, optionally, arguments
+  participantLandingPageEventDetails: a
+    .query()
+    // arguments that this query accepts
+    .arguments({
+      eventId: a.string()
+    })
+    // return type of the query
+    .returns(a.ref('ParticipantLandingEventDetailsResponse'))
+    // only allow signed-in users to call this API
+    .authorization(allow => [allow.guest()])
+    .handler(a.handler.function(participantLandingPageEventDetailsHandler))
 });
 
 export type Schema = ClientSchema<typeof schema>;

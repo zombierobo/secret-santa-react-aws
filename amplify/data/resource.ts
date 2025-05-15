@@ -4,10 +4,10 @@ import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/b
 // custom lambda handlers
 
 const participantLandingPageEventDetailsHandler = defineFunction({
-  entry: './participantLandingPageEventDetails-handler/handler.ts'
+  entry: './HandlerParticipantLandingPageEventDetails.ts'
 })
 const participantEventInviteAcceptResponseMutationHandler = defineFunction({
-  entry: './participantEventInviteAcceptResponseMutation-handler/handler.ts'
+  entry: './HandlerParticipantEventInviteAcceptResponseMutation.ts'
 })
 
 

@@ -1,7 +1,10 @@
+import { generateClient } from "aws-amplify/api";
 import { useEffect, useState } from "react";
 
-import { client } from "../../amplify/data/exported-types";
 import { useParams } from "react-router-dom";
+import { Schema } from "../../amplify/data/resource";
+
+const client = generateClient<Schema>();
 
 function ParticipantJoinEventLandingPage() {
   const { eventId } = useParams();

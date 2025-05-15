@@ -3,9 +3,11 @@ import type {
   ParticipantType,
   EventType,
 } from "../../amplify/data/exported-types";
-import { client } from "../../amplify/data/exported-types";
 import { useParams } from "react-router-dom";
 import ParticipantsManagerTable from "./ParticipantsManagerTable";
+import { generateClient } from "aws-amplify/data";
+import { Schema } from "../../amplify/data/resource";
+const client = generateClient<Schema>();
 
 function EventDetailsPage() {
   const { eventId } = useParams();

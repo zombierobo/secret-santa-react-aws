@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import type { EventType } from "../../amplify/data/exported-types";
-import { client } from "../../amplify/data/exported-types";
+import { generateClient } from "aws-amplify/data";
+import { Schema } from "../../amplify/data/resource";
+
+const client = generateClient<Schema>();
 
 function EventListPage() {
   const [events, setEvents] = useState<Array<EventType>>([]);

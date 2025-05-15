@@ -15,7 +15,10 @@ const schema = a.schema({
   Event: a
     .model({
       name: a.string().required()
-        .authorization(allow => [allow.guest().to(["read"]),]),
+        .authorization(allow => [
+          allow.guest().to(["read"]),
+          allow.owner()
+        ]),
       // description: a.string(),
       // drawDate: a.date(),
       // giftDate: a.date(),
@@ -27,7 +30,7 @@ const schema = a.schema({
       allow.owner()
     ]),
   
-
+  // Manual participants
   Participant: a
     .model({
       name: a.string().required(),

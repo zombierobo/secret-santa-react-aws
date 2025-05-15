@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 function ParticipantJoinEventLandingPage() {
   const { eventId } = useParams();
-  const [_, setEvent] = useState<EventType>();
+  const [event, setEvent] = useState<EventType>();
   useEffect(() => {
     (async function () {
       if (eventId) {
@@ -24,7 +24,13 @@ function ParticipantJoinEventLandingPage() {
   }, []);
   return (
     <div>
-      <h1>Welcome to participant page</h1>
+      {event?.name ? (
+        <>
+          <h1>
+            Are you interested in joining secret santa event {event.name}{" "}
+          </h1>
+        </>
+      ) : null}
     </div>
   );
 }

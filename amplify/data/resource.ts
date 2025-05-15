@@ -6,6 +6,9 @@ import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/b
 const participantLandingPageEventDetailsHandler = defineFunction({
   entry: './participantLandingPageEventDetails-handler/handler.ts'
 })
+const participantEventInviteAcceptResponseMutationHandler = defineFunction({
+  entry: './participantEventInviteAcceptResponseMutation-handler/handler.ts'
+})
 
 
 const schema = a.schema({
@@ -33,11 +36,24 @@ const schema = a.schema({
       eventId: a.id(),
       event: a.belongsTo('Event', 'eventId'),
     }).authorization((allow) => [allow.owner()]),
+  
+  
+  EventInvitationAcceptedResponse: a
+    .model({
+      name: a.string().required(),
+      eventId: a.id().required(),
+      email: a.email().required()
+    }).authorization((allow) => [allow.guest()]),
 
   
   ParticipantLandingEventDetailsResponse: a.customType({
     eventName: a.string().required(),
     organizerName: a.string().required()
+  }),
+
+  ParticipantEventInviteAcceptResponseMutationResponse: a.customType({
+    success: a.boolean().required(),
+    errorMessage: a.string()
   }),
 
   participantLandingPageEventDetails: a
@@ -47,7 +63,18 @@ const schema = a.schema({
     })
     .returns(a.ref('ParticipantLandingEventDetailsResponse'))
     .authorization(allow => [allow.guest()])
-    .handler(a.handler.function(participantLandingPageEventDetailsHandler))
+    .handler(a.handler.function(participantLandingPageEventDetailsHandler)),
+  
+  participantEventInviteAcceptResponseMutation: a
+    .mutation()
+    .arguments({
+      eventId: a.string().required(),
+      name: a.string().required(),
+      email: a.email().required()
+    })
+    .returns(a.ref('ParticipantEventInviteAcceptResponseMutationResponse'))
+    .authorization(allow => [allow.guest()])
+    .handler(a.handler.function(participantEventInviteAcceptResponseMutationHandler)),
 });
 
 export type Schema = ClientSchema<typeof schema>;

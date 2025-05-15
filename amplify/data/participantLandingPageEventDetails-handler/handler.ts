@@ -10,7 +10,7 @@ export const handler: Schema["participantLandingPageEventDetails"]["functionHand
         { id: event.arguments.eventId },
         { authMode: "identityPool" }
       );
-      eventName = eventData.data?.name ?? "",;
+      eventName = eventData.data?.name ?? "";
     } catch (err) {
       eventName = "error occurred";
       console.error("failed to fetch event details", err);
@@ -18,6 +18,6 @@ export const handler: Schema["participantLandingPageEventDetails"]["functionHand
 
     return {
       organizerName: "",
-      eventName: eventName
+      eventName: eventName,
     };
   };

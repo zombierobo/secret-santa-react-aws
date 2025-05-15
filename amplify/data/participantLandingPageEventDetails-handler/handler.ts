@@ -1,6 +1,6 @@
 import { cognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
-import type { Schema } from "./resource";
-import { client, EventType } from "./exported-types";
+import type { Schema } from "../resource";
+import { client, EventType } from "../exported-types";
 
 export const handler: Schema["participantLandingPageEventDetails"]["functionHandler"] =
   async (event, _context) => {

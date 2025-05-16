@@ -1,0 +1,202 @@
+/* tslint:disable */
+/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+import * as APITypes from "./API";
+type GeneratedSubscription<InputType, OutputType> = string & {
+  __generatedSubscriptionInput: InputType;
+  __generatedSubscriptionOutput: OutputType;
+};
+
+export const onCreateEvent = /* GraphQL */ `subscription OnCreateEvent(
+  $filter: ModelSubscriptionEventFilterInput
+  $owner: String
+) {
+  onCreateEvent(filter: $filter, owner: $owner) {
+    createdAt
+    id
+    name
+    owner
+    participants {
+      nextToken
+      __typename
+    }
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateEventSubscriptionVariables,
+  APITypes.OnCreateEventSubscription
+>;
+export const onCreateParticipant = /* GraphQL */ `subscription OnCreateParticipant(
+  $filter: ModelSubscriptionParticipantFilterInput
+  $owner: String
+) {
+  onCreateParticipant(filter: $filter, owner: $owner) {
+    createdAt
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateParticipantSubscriptionVariables,
+  APITypes.OnCreateParticipantSubscription
+>;
+export const onCreateTodo = /* GraphQL */ `subscription OnCreateTodo(
+  $filter: ModelSubscriptionTodoFilterInput
+  $owner: String
+) {
+  onCreateTodo(filter: $filter, owner: $owner) {
+    content
+    createdAt
+    id
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateTodoSubscriptionVariables,
+  APITypes.OnCreateTodoSubscription
+>;
+export const onDeleteEvent = /* GraphQL */ `subscription OnDeleteEvent(
+  $filter: ModelSubscriptionEventFilterInput
+  $owner: String
+) {
+  onDeleteEvent(filter: $filter, owner: $owner) {
+    createdAt
+    id
+    name
+    owner
+    participants {
+      nextToken
+      __typename
+    }
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteEventSubscriptionVariables,
+  APITypes.OnDeleteEventSubscription
+>;
+export const onDeleteParticipant = /* GraphQL */ `subscription OnDeleteParticipant(
+  $filter: ModelSubscriptionParticipantFilterInput
+  $owner: String
+) {
+  onDeleteParticipant(filter: $filter, owner: $owner) {
+    createdAt
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteParticipantSubscriptionVariables,
+  APITypes.OnDeleteParticipantSubscription
+>;
+export const onDeleteTodo = /* GraphQL */ `subscription OnDeleteTodo(
+  $filter: ModelSubscriptionTodoFilterInput
+  $owner: String
+) {
+  onDeleteTodo(filter: $filter, owner: $owner) {
+    content
+    createdAt
+    id
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteTodoSubscriptionVariables,
+  APITypes.OnDeleteTodoSubscription
+>;
+export const onUpdateEvent = /* GraphQL */ `subscription OnUpdateEvent(
+  $filter: ModelSubscriptionEventFilterInput
+  $owner: String
+) {
+  onUpdateEvent(filter: $filter, owner: $owner) {
+    createdAt
+    id
+    name
+    owner
+    participants {
+      nextToken
+      __typename
+    }
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateEventSubscriptionVariables,
+  APITypes.OnUpdateEventSubscription
+>;
+export const onUpdateParticipant = /* GraphQL */ `subscription OnUpdateParticipant(
+  $filter: ModelSubscriptionParticipantFilterInput
+  $owner: String
+) {
+  onUpdateParticipant(filter: $filter, owner: $owner) {
+    createdAt
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateParticipantSubscriptionVariables,
+  APITypes.OnUpdateParticipantSubscription
+>;
+export const onUpdateTodo = /* GraphQL */ `subscription OnUpdateTodo(
+  $filter: ModelSubscriptionTodoFilterInput
+  $owner: String
+) {
+  onUpdateTodo(filter: $filter, owner: $owner) {
+    content
+    createdAt
+    id
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateTodoSubscriptionVariables,
+  APITypes.OnUpdateTodoSubscription
+>;

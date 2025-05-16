@@ -46,6 +46,22 @@ export const getParticipant = /* GraphQL */ `query GetParticipant($id: ID!) {
   APITypes.GetParticipantQueryVariables,
   APITypes.GetParticipantQuery
 >;
+export const getParticipantInviteResponse = /* GraphQL */ `query GetParticipantInviteResponse($id: ID!) {
+  getParticipantInviteResponse(id: $id) {
+    createdAt
+    email
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetParticipantInviteResponseQueryVariables,
+  APITypes.GetParticipantInviteResponseQuery
+>;
 export const getTodo = /* GraphQL */ `query GetTodo($id: ID!) {
   getTodo(id: $id) {
     content
@@ -92,6 +108,34 @@ export const listEvents = /* GraphQL */ `query ListEvents(
 ` as GeneratedQuery<
   APITypes.ListEventsQueryVariables,
   APITypes.ListEventsQuery
+>;
+export const listParticipantInviteResponses = /* GraphQL */ `query ListParticipantInviteResponses(
+  $filter: ModelParticipantInviteResponseFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listParticipantInviteResponses(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      createdAt
+      email
+      eventId
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListParticipantInviteResponsesQueryVariables,
+  APITypes.ListParticipantInviteResponsesQuery
 >;
 export const listParticipants = /* GraphQL */ `query ListParticipants(
   $filter: ModelParticipantFilterInput

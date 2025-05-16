@@ -29,6 +29,17 @@ export type Participant = {
   updatedAt: string,
 };
 
+export type ParticipantInviteResponse = {
+  __typename: "ParticipantInviteResponse",
+  createdAt: string,
+  email: string,
+  eventId: string,
+  id: string,
+  name: string,
+  owner?: string | null,
+  updatedAt: string,
+};
+
 export type Todo = {
   __typename: "Todo",
   content?: string | null,
@@ -120,6 +131,25 @@ export type ModelEventConnection = {
   nextToken?: string | null,
 };
 
+export type ModelParticipantInviteResponseFilterInput = {
+  and?: Array< ModelParticipantInviteResponseFilterInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  eventId?: ModelIDInput | null,
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  not?: ModelParticipantInviteResponseFilterInput | null,
+  or?: Array< ModelParticipantInviteResponseFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelParticipantInviteResponseConnection = {
+  __typename: "ModelParticipantInviteResponseConnection",
+  items:  Array<ParticipantInviteResponse | null >,
+  nextToken?: string | null,
+};
+
 export type ModelParticipantFilterInput = {
   and?: Array< ModelParticipantFilterInput | null > | null,
   createdAt?: ModelStringInput | null,
@@ -206,6 +236,25 @@ export type CreateParticipantInput = {
   owner?: string | null,
 };
 
+export type ModelParticipantInviteResponseConditionInput = {
+  and?: Array< ModelParticipantInviteResponseConditionInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  eventId?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  not?: ModelParticipantInviteResponseConditionInput | null,
+  or?: Array< ModelParticipantInviteResponseConditionInput | null > | null,
+  owner?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type CreateParticipantInviteResponseInput = {
+  email: string,
+  eventId: string,
+  id?: string | null,
+  name: string,
+};
+
 export type ModelTodoConditionInput = {
   and?: Array< ModelTodoConditionInput | null > | null,
   content?: ModelStringInput | null,
@@ -245,12 +294,21 @@ export type DeleteParticipantInput = {
   id: string,
 };
 
+export type DeleteParticipantInviteResponseInput = {
+  id: string,
+};
+
 export type DeleteTodoInput = {
   id: string,
 };
 
 export type DeleteUserProfileInput = {
   id: string,
+};
+
+export type ParticipantInviteResponseMutationResponse = {
+  __typename: "ParticipantInviteResponseMutationResponse",
+  success: boolean,
 };
 
 export type UpdateEventInput = {
@@ -264,6 +322,13 @@ export type UpdateParticipantInput = {
   id: string,
   name?: string | null,
   owner?: string | null,
+};
+
+export type UpdateParticipantInviteResponseInput = {
+  email?: string | null,
+  eventId?: string | null,
+  id: string,
+  name?: string | null,
 };
 
 export type UpdateTodoInput = {
@@ -324,6 +389,18 @@ export type ModelSubscriptionParticipantFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
   or?: Array< ModelSubscriptionParticipantFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionParticipantInviteResponseFilterInput = {
+  and?: Array< ModelSubscriptionParticipantInviteResponseFilterInput | null > | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  eventId?: ModelSubscriptionIDInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionParticipantInviteResponseFilterInput | null > | null,
   owner?: ModelStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
@@ -391,6 +468,23 @@ export type GetParticipantQuery = {
   } | null,
 };
 
+export type GetParticipantInviteResponseQueryVariables = {
+  id: string,
+};
+
+export type GetParticipantInviteResponseQuery = {
+  getParticipantInviteResponse?:  {
+    __typename: "ParticipantInviteResponse",
+    createdAt: string,
+    email: string,
+    eventId: string,
+    id: string,
+    name: string,
+    owner?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetTodoQueryVariables = {
   id: string,
 };
@@ -433,6 +527,29 @@ export type ListEventsQuery = {
     items:  Array< {
       __typename: "Event",
       createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListParticipantInviteResponsesQueryVariables = {
+  filter?: ModelParticipantInviteResponseFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListParticipantInviteResponsesQuery = {
+  listParticipantInviteResponses?:  {
+    __typename: "ModelParticipantInviteResponseConnection",
+    items:  Array< {
+      __typename: "ParticipantInviteResponse",
+      createdAt: string,
+      email: string,
+      eventId: string,
       id: string,
       name: string,
       owner?: string | null,
@@ -563,6 +680,24 @@ export type CreateParticipantMutation = {
   } | null,
 };
 
+export type CreateParticipantInviteResponseMutationVariables = {
+  condition?: ModelParticipantInviteResponseConditionInput | null,
+  input: CreateParticipantInviteResponseInput,
+};
+
+export type CreateParticipantInviteResponseMutation = {
+  createParticipantInviteResponse?:  {
+    __typename: "ParticipantInviteResponse",
+    createdAt: string,
+    email: string,
+    eventId: string,
+    id: string,
+    name: string,
+    owner?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateTodoMutationVariables = {
   condition?: ModelTodoConditionInput | null,
   input: CreateTodoInput,
@@ -640,6 +775,24 @@ export type DeleteParticipantMutation = {
   } | null,
 };
 
+export type DeleteParticipantInviteResponseMutationVariables = {
+  condition?: ModelParticipantInviteResponseConditionInput | null,
+  input: DeleteParticipantInviteResponseInput,
+};
+
+export type DeleteParticipantInviteResponseMutation = {
+  deleteParticipantInviteResponse?:  {
+    __typename: "ParticipantInviteResponse",
+    createdAt: string,
+    email: string,
+    eventId: string,
+    id: string,
+    name: string,
+    owner?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type DeleteTodoMutationVariables = {
   condition?: ModelTodoConditionInput | null,
   input: DeleteTodoInput,
@@ -669,6 +822,19 @@ export type DeleteUserProfileMutation = {
     id: string,
     profileOwner?: string | null,
     updatedAt: string,
+  } | null,
+};
+
+export type ParticipantInviteResponseMutationMutationVariables = {
+  email: string,
+  eventId: string,
+  name: string,
+};
+
+export type ParticipantInviteResponseMutationMutation = {
+  participantInviteResponseMutation?:  {
+    __typename: "ParticipantInviteResponseMutationResponse",
+    success: boolean,
   } | null,
 };
 
@@ -710,6 +876,24 @@ export type UpdateParticipantMutation = {
       updatedAt: string,
     } | null,
     eventId?: string | null,
+    id: string,
+    name: string,
+    owner?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateParticipantInviteResponseMutationVariables = {
+  condition?: ModelParticipantInviteResponseConditionInput | null,
+  input: UpdateParticipantInviteResponseInput,
+};
+
+export type UpdateParticipantInviteResponseMutation = {
+  updateParticipantInviteResponse?:  {
+    __typename: "ParticipantInviteResponse",
+    createdAt: string,
+    email: string,
+    eventId: string,
     id: string,
     name: string,
     owner?: string | null,
@@ -794,6 +978,24 @@ export type OnCreateParticipantSubscription = {
   } | null,
 };
 
+export type OnCreateParticipantInviteResponseSubscriptionVariables = {
+  filter?: ModelSubscriptionParticipantInviteResponseFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateParticipantInviteResponseSubscription = {
+  onCreateParticipantInviteResponse?:  {
+    __typename: "ParticipantInviteResponse",
+    createdAt: string,
+    email: string,
+    eventId: string,
+    id: string,
+    name: string,
+    owner?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateTodoSubscriptionVariables = {
   filter?: ModelSubscriptionTodoFilterInput | null,
   owner?: string | null,
@@ -871,6 +1073,24 @@ export type OnDeleteParticipantSubscription = {
   } | null,
 };
 
+export type OnDeleteParticipantInviteResponseSubscriptionVariables = {
+  filter?: ModelSubscriptionParticipantInviteResponseFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteParticipantInviteResponseSubscription = {
+  onDeleteParticipantInviteResponse?:  {
+    __typename: "ParticipantInviteResponse",
+    createdAt: string,
+    email: string,
+    eventId: string,
+    id: string,
+    name: string,
+    owner?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnDeleteTodoSubscriptionVariables = {
   filter?: ModelSubscriptionTodoFilterInput | null,
   owner?: string | null,
@@ -941,6 +1161,24 @@ export type OnUpdateParticipantSubscription = {
       updatedAt: string,
     } | null,
     eventId?: string | null,
+    id: string,
+    name: string,
+    owner?: string | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateParticipantInviteResponseSubscriptionVariables = {
+  filter?: ModelSubscriptionParticipantInviteResponseFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateParticipantInviteResponseSubscription = {
+  onUpdateParticipantInviteResponse?:  {
+    __typename: "ParticipantInviteResponse",
+    createdAt: string,
+    email: string,
+    eventId: string,
     id: string,
     name: string,
     owner?: string | null,

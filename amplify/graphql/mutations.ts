@@ -55,6 +55,25 @@ export const createParticipant = /* GraphQL */ `mutation CreateParticipant(
   APITypes.CreateParticipantMutationVariables,
   APITypes.CreateParticipantMutation
 >;
+export const createParticipantInviteResponse = /* GraphQL */ `mutation CreateParticipantInviteResponse(
+  $condition: ModelParticipantInviteResponseConditionInput
+  $input: CreateParticipantInviteResponseInput!
+) {
+  createParticipantInviteResponse(condition: $condition, input: $input) {
+    createdAt
+    email
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateParticipantInviteResponseMutationVariables,
+  APITypes.CreateParticipantInviteResponseMutation
+>;
 export const createTodo = /* GraphQL */ `mutation CreateTodo(
   $condition: ModelTodoConditionInput
   $input: CreateTodoInput!
@@ -136,6 +155,25 @@ export const deleteParticipant = /* GraphQL */ `mutation DeleteParticipant(
   APITypes.DeleteParticipantMutationVariables,
   APITypes.DeleteParticipantMutation
 >;
+export const deleteParticipantInviteResponse = /* GraphQL */ `mutation DeleteParticipantInviteResponse(
+  $condition: ModelParticipantInviteResponseConditionInput
+  $input: DeleteParticipantInviteResponseInput!
+) {
+  deleteParticipantInviteResponse(condition: $condition, input: $input) {
+    createdAt
+    email
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteParticipantInviteResponseMutationVariables,
+  APITypes.DeleteParticipantInviteResponseMutation
+>;
 export const deleteTodo = /* GraphQL */ `mutation DeleteTodo(
   $condition: ModelTodoConditionInput
   $input: DeleteTodoInput!
@@ -169,6 +207,24 @@ export const deleteUserProfile = /* GraphQL */ `mutation DeleteUserProfile(
 ` as GeneratedMutation<
   APITypes.DeleteUserProfileMutationVariables,
   APITypes.DeleteUserProfileMutation
+>;
+export const participantInviteResponseMutation = /* GraphQL */ `mutation ParticipantInviteResponseMutation(
+  $email: String!
+  $eventId: String!
+  $name: String!
+) {
+  participantInviteResponseMutation(
+    email: $email
+    eventId: $eventId
+    name: $name
+  ) {
+    success
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.ParticipantInviteResponseMutationMutationVariables,
+  APITypes.ParticipantInviteResponseMutationMutation
 >;
 export const updateEvent = /* GraphQL */ `mutation UpdateEvent(
   $condition: ModelEventConditionInput
@@ -216,6 +272,25 @@ export const updateParticipant = /* GraphQL */ `mutation UpdateParticipant(
 ` as GeneratedMutation<
   APITypes.UpdateParticipantMutationVariables,
   APITypes.UpdateParticipantMutation
+>;
+export const updateParticipantInviteResponse = /* GraphQL */ `mutation UpdateParticipantInviteResponse(
+  $condition: ModelParticipantInviteResponseConditionInput
+  $input: UpdateParticipantInviteResponseInput!
+) {
+  updateParticipantInviteResponse(condition: $condition, input: $input) {
+    createdAt
+    email
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateParticipantInviteResponseMutationVariables,
+  APITypes.UpdateParticipantInviteResponseMutation
 >;
 export const updateTodo = /* GraphQL */ `mutation UpdateTodo(
   $condition: ModelTodoConditionInput

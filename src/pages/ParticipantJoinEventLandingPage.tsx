@@ -31,11 +31,34 @@ function ParticipantJoinEventLandingPage() {
       }
     })();
   }, []);
+
+  function acceptEventInvite() {
+    if (eventId) {
+      (async function () {
+        const { data, errors } =
+          await client.mutations.participantInviteResponseMutation(
+            {
+              name: "Paritipant hard code name",
+              email: "particpantemail-hardcode@xyz.com",
+              eventId,
+            },
+            { authMode: "identityPool" }
+          );
+        data?.success && window.alert("Success! Event Joined");
+        if (errors) {
+          window.alert("Error! Could not join");
+          console.error("Joining event failed", errors);
+        }
+      })();
+    }
+  }
   return (
     <div>
       {eventName ? (
         <>
           <h1>Are you interested in joining secret santa event {eventName} </h1>
+
+          <button onClick={acceptEventInvite}>Yes</button>
         </>
       ) : null}
     </div>

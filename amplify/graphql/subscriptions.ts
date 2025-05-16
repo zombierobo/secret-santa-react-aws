@@ -55,6 +55,25 @@ export const onCreateParticipant = /* GraphQL */ `subscription OnCreateParticipa
   APITypes.OnCreateParticipantSubscriptionVariables,
   APITypes.OnCreateParticipantSubscription
 >;
+export const onCreateParticipantInviteResponse = /* GraphQL */ `subscription OnCreateParticipantInviteResponse(
+  $filter: ModelSubscriptionParticipantInviteResponseFilterInput
+  $owner: String
+) {
+  onCreateParticipantInviteResponse(filter: $filter, owner: $owner) {
+    createdAt
+    email
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateParticipantInviteResponseSubscriptionVariables,
+  APITypes.OnCreateParticipantInviteResponseSubscription
+>;
 export const onCreateTodo = /* GraphQL */ `subscription OnCreateTodo(
   $filter: ModelSubscriptionTodoFilterInput
   $owner: String
@@ -136,6 +155,25 @@ export const onDeleteParticipant = /* GraphQL */ `subscription OnDeleteParticipa
   APITypes.OnDeleteParticipantSubscriptionVariables,
   APITypes.OnDeleteParticipantSubscription
 >;
+export const onDeleteParticipantInviteResponse = /* GraphQL */ `subscription OnDeleteParticipantInviteResponse(
+  $filter: ModelSubscriptionParticipantInviteResponseFilterInput
+  $owner: String
+) {
+  onDeleteParticipantInviteResponse(filter: $filter, owner: $owner) {
+    createdAt
+    email
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteParticipantInviteResponseSubscriptionVariables,
+  APITypes.OnDeleteParticipantInviteResponseSubscription
+>;
 export const onDeleteTodo = /* GraphQL */ `subscription OnDeleteTodo(
   $filter: ModelSubscriptionTodoFilterInput
   $owner: String
@@ -216,6 +254,25 @@ export const onUpdateParticipant = /* GraphQL */ `subscription OnUpdateParticipa
 ` as GeneratedSubscription<
   APITypes.OnUpdateParticipantSubscriptionVariables,
   APITypes.OnUpdateParticipantSubscription
+>;
+export const onUpdateParticipantInviteResponse = /* GraphQL */ `subscription OnUpdateParticipantInviteResponse(
+  $filter: ModelSubscriptionParticipantInviteResponseFilterInput
+  $owner: String
+) {
+  onUpdateParticipantInviteResponse(filter: $filter, owner: $owner) {
+    createdAt
+    email
+    eventId
+    id
+    name
+    owner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateParticipantInviteResponseSubscriptionVariables,
+  APITypes.OnUpdateParticipantInviteResponseSubscription
 >;
 export const onUpdateTodo = /* GraphQL */ `subscription OnUpdateTodo(
   $filter: ModelSubscriptionTodoFilterInput

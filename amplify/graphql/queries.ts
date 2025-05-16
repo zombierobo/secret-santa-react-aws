@@ -57,6 +57,20 @@ export const getTodo = /* GraphQL */ `query GetTodo($id: ID!) {
   }
 }
 ` as GeneratedQuery<APITypes.GetTodoQueryVariables, APITypes.GetTodoQuery>;
+export const getUserProfile = /* GraphQL */ `query GetUserProfile($id: ID!) {
+  getUserProfile(id: $id) {
+    createdAt
+    email
+    id
+    profileOwner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetUserProfileQueryVariables,
+  APITypes.GetUserProfileQuery
+>;
 export const listEvents = /* GraphQL */ `query ListEvents(
   $filter: ModelEventFilterInput
   $limit: Int
@@ -121,6 +135,28 @@ export const listTodos = /* GraphQL */ `query ListTodos(
   }
 }
 ` as GeneratedQuery<APITypes.ListTodosQueryVariables, APITypes.ListTodosQuery>;
+export const listUserProfiles = /* GraphQL */ `query ListUserProfiles(
+  $filter: ModelUserProfileFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUserProfiles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      createdAt
+      email
+      id
+      profileOwner
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUserProfilesQueryVariables,
+  APITypes.ListUserProfilesQuery
+>;
 export const participantLandingPageDataFetcher = /* GraphQL */ `query ParticipantLandingPageDataFetcher($eventId: String!) {
   participantLandingPageDataFetcher(eventId: $eventId) {
     eventName

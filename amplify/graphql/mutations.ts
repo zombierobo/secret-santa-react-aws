@@ -72,6 +72,23 @@ export const createTodo = /* GraphQL */ `mutation CreateTodo(
   APITypes.CreateTodoMutationVariables,
   APITypes.CreateTodoMutation
 >;
+export const createUserProfile = /* GraphQL */ `mutation CreateUserProfile(
+  $condition: ModelUserProfileConditionInput
+  $input: CreateUserProfileInput!
+) {
+  createUserProfile(condition: $condition, input: $input) {
+    createdAt
+    email
+    id
+    profileOwner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateUserProfileMutationVariables,
+  APITypes.CreateUserProfileMutation
+>;
 export const deleteEvent = /* GraphQL */ `mutation DeleteEvent(
   $condition: ModelEventConditionInput
   $input: DeleteEventInput!
@@ -136,6 +153,23 @@ export const deleteTodo = /* GraphQL */ `mutation DeleteTodo(
   APITypes.DeleteTodoMutationVariables,
   APITypes.DeleteTodoMutation
 >;
+export const deleteUserProfile = /* GraphQL */ `mutation DeleteUserProfile(
+  $condition: ModelUserProfileConditionInput
+  $input: DeleteUserProfileInput!
+) {
+  deleteUserProfile(condition: $condition, input: $input) {
+    createdAt
+    email
+    id
+    profileOwner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteUserProfileMutationVariables,
+  APITypes.DeleteUserProfileMutation
+>;
 export const updateEvent = /* GraphQL */ `mutation UpdateEvent(
   $condition: ModelEventConditionInput
   $input: UpdateEventInput!
@@ -199,4 +233,21 @@ export const updateTodo = /* GraphQL */ `mutation UpdateTodo(
 ` as GeneratedMutation<
   APITypes.UpdateTodoMutationVariables,
   APITypes.UpdateTodoMutation
+>;
+export const updateUserProfile = /* GraphQL */ `mutation UpdateUserProfile(
+  $condition: ModelUserProfileConditionInput
+  $input: UpdateUserProfileInput!
+) {
+  updateUserProfile(condition: $condition, input: $input) {
+    createdAt
+    email
+    id
+    profileOwner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateUserProfileMutationVariables,
+  APITypes.UpdateUserProfileMutation
 >;

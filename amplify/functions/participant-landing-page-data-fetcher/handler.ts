@@ -2,7 +2,7 @@ import { type Schema } from "../../data/resource";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { env } from "$amplify/env/participant-landing-page-data-fetcher"; // the import is '$amplify/env/<function-name>'
-import { getEvent } from "../../data/graphql/queries";
+import { getEvent } from "../../graphql/queries";
 
 Amplify.configure(
   {

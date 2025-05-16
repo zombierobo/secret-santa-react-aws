@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { participantLandingPageDataFetcher } from "../functions/participant-landing-page-data-fetcher/resource";
+import { postConfirmation } from "../auth/post-confirmation/resource";
 
 const schema = a
   .schema({
@@ -8,6 +9,12 @@ const schema = a
         content: a.string(),
       })
       .authorization((allow) => [allow.owner()]),
+    UserProfile: a
+      .model({
+        email: a.string(),
+        profileOwner: a.string(),
+      })
+      .authorization((allow) => [allow.ownerDefinedIn("profileOwner")]),
     Event: a
       .model({
         name: a
@@ -52,6 +59,7 @@ const schema = a
   })
   .authorization((allow) => [
     allow.resource(participantLandingPageDataFetcher),
+    allow.resource(postConfirmation),
   ]);
 
 export type Schema = ClientSchema<typeof schema>;

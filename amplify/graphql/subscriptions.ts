@@ -72,6 +72,23 @@ export const onCreateTodo = /* GraphQL */ `subscription OnCreateTodo(
   APITypes.OnCreateTodoSubscriptionVariables,
   APITypes.OnCreateTodoSubscription
 >;
+export const onCreateUserProfile = /* GraphQL */ `subscription OnCreateUserProfile(
+  $filter: ModelSubscriptionUserProfileFilterInput
+  $profileOwner: String
+) {
+  onCreateUserProfile(filter: $filter, profileOwner: $profileOwner) {
+    createdAt
+    email
+    id
+    profileOwner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateUserProfileSubscriptionVariables,
+  APITypes.OnCreateUserProfileSubscription
+>;
 export const onDeleteEvent = /* GraphQL */ `subscription OnDeleteEvent(
   $filter: ModelSubscriptionEventFilterInput
   $owner: String
@@ -136,6 +153,23 @@ export const onDeleteTodo = /* GraphQL */ `subscription OnDeleteTodo(
   APITypes.OnDeleteTodoSubscriptionVariables,
   APITypes.OnDeleteTodoSubscription
 >;
+export const onDeleteUserProfile = /* GraphQL */ `subscription OnDeleteUserProfile(
+  $filter: ModelSubscriptionUserProfileFilterInput
+  $profileOwner: String
+) {
+  onDeleteUserProfile(filter: $filter, profileOwner: $profileOwner) {
+    createdAt
+    email
+    id
+    profileOwner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteUserProfileSubscriptionVariables,
+  APITypes.OnDeleteUserProfileSubscription
+>;
 export const onUpdateEvent = /* GraphQL */ `subscription OnUpdateEvent(
   $filter: ModelSubscriptionEventFilterInput
   $owner: String
@@ -199,4 +233,21 @@ export const onUpdateTodo = /* GraphQL */ `subscription OnUpdateTodo(
 ` as GeneratedSubscription<
   APITypes.OnUpdateTodoSubscriptionVariables,
   APITypes.OnUpdateTodoSubscription
+>;
+export const onUpdateUserProfile = /* GraphQL */ `subscription OnUpdateUserProfile(
+  $filter: ModelSubscriptionUserProfileFilterInput
+  $profileOwner: String
+) {
+  onUpdateUserProfile(filter: $filter, profileOwner: $profileOwner) {
+    createdAt
+    email
+    id
+    profileOwner
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateUserProfileSubscriptionVariables,
+  APITypes.OnUpdateUserProfileSubscription
 >;

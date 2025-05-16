@@ -21,6 +21,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "exclude": ["amplify/**/*"],
+  "exclude": ["node_modules", "amplify/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

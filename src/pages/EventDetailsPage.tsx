@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import ParticipantsManagerTable from "./ParticipantsManagerTable";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../amplify/data/resource";
+import GreetingMessage from "./components/GreetingMessage";
 const client = generateClient<Schema>();
 
 function EventDetailsPage() {
@@ -41,6 +42,7 @@ function EventDetailsPage() {
 
   return (
     <main>
+      <GreetingMessage />
       <h1>Secret Santa Event name: {event?.name}</h1>
       <ParticipantsManagerTable
         participants={participants}

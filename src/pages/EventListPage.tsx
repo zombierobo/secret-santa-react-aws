@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import type { EventType } from "../../amplify/data/exported-types";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../amplify/data/resource";
+import GreetingMessage from "./components/GreetingMessage";
 
 const client = generateClient<Schema>();
 
@@ -21,6 +22,7 @@ function EventListPage() {
   }
   return (
     <main>
+      <GreetingMessage />
       <h1>Your secret santa events</h1>
       <button onClick={createEvent}>+ new</button>
       <ul>

@@ -19,6 +19,9 @@ const schema = a.schema({
           allow.owner()
         ]),
       participants: a.hasMany('Participant', 'eventId'),
+      owner: a.string().authorization(allow => [
+          allow.owner().to(["read", "delete"])
+        ]),
     }).authorization((allow) => [
       allow.owner()
     ]),
@@ -29,6 +32,9 @@ const schema = a.schema({
       name: a.string().required(),
       eventId: a.id(),
       event: a.belongsTo('Event', 'eventId'),
+      owner: a.string().authorization(allow => [
+          allow.owner().to(["read", "delete"])
+        ]),
     }).authorization((allow) => [allow.owner()]),
 
   
@@ -45,7 +51,7 @@ const schema = a.schema({
     .returns(a.ref('ParticipantLandingEventDetailsResponse'))
     .authorization(allow => [allow.guest()])
     .handler(a.handler.function(participantLandingPageDataFetcher))
-});
+}). authorization(allow => [allow.resource(participantLandingPageDataFetcher).to(["query"])]);;
 
 export type Schema = ClientSchema<typeof schema>;
 

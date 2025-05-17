@@ -201,6 +201,17 @@ export const listUserProfiles = /* GraphQL */ `query ListUserProfiles(
   APITypes.ListUserProfilesQueryVariables,
   APITypes.ListUserProfilesQuery
 >;
+export const participantInvitesAcceptedDataFetcher = /* GraphQL */ `query ParticipantInvitesAcceptedDataFetcher($eventId: String!) {
+  participantInvitesAcceptedDataFetcher(eventId: $eventId) {
+    email
+    name
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ParticipantInvitesAcceptedDataFetcherQueryVariables,
+  APITypes.ParticipantInvitesAcceptedDataFetcherQuery
+>;
 export const participantLandingPageDataFetcher = /* GraphQL */ `query ParticipantLandingPageDataFetcher($eventId: String!) {
   participantLandingPageDataFetcher(eventId: $eventId) {
     eventName

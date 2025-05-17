@@ -14,6 +14,9 @@ function EventDetailsPage() {
   const { eventId } = useParams();
   const [event, setEvent] = useState<EventType>();
   const [participants, setParticipants] = useState<Array<ParticipantType>>([]);
+  const [inviteAcceptedParticipants, setInviteAcceptedParticipants] = useState<
+    Array<{ name: string; email: string }>
+  >([]);
   useEffect(() => {
     (async function () {
       if (eventId) {
@@ -21,8 +24,16 @@ function EventDetailsPage() {
         const eventData: EventType | null = res.data;
         if (eventData) {
           setEvent(eventData);
-          const participantsData = await eventData.participants();
-          setParticipants(participantsData.data ?? []);
+          await Promise.all([
+            eventData.participants().then((r) => setParticipants(r.data)),
+            client.queries
+              .participantInvitesAcceptedDataFetcher({
+                eventId,
+              })
+              .then((r) => {
+                setInviteAcceptedParticipants(r.data ?? []);
+              }),
+          ]);
         }
       } else {
         console.error("Event id is missing");
@@ -46,6 +57,7 @@ function EventDetailsPage() {
       <h1>Secret Santa Event name: {event?.name}</h1>
       <ParticipantsManagerTable
         participants={participants}
+        inviteAcceptedParticipants={inviteAcceptedParticipants}
         addParticipant={createParticipant}
         eventId={eventId ?? ""}
       />

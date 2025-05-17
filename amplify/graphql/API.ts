@@ -196,6 +196,12 @@ export type ModelUserProfileConnection = {
   nextToken?: string | null,
 };
 
+export type ParticipantInvitesAcceptedDataFetcherResponse = {
+  __typename: "ParticipantInvitesAcceptedDataFetcherResponse",
+  email: string,
+  name: string,
+};
+
 export type ParticipantLandingEventDetailsResponse = {
   __typename: "ParticipantLandingEventDetailsResponse",
   eventName: string,
@@ -621,6 +627,18 @@ export type ListUserProfilesQuery = {
     } | null >,
     nextToken?: string | null,
   } | null,
+};
+
+export type ParticipantInvitesAcceptedDataFetcherQueryVariables = {
+  eventId: string,
+};
+
+export type ParticipantInvitesAcceptedDataFetcherQuery = {
+  participantInvitesAcceptedDataFetcher?:  Array< {
+    __typename: "ParticipantInvitesAcceptedDataFetcherResponse",
+    email: string,
+    name: string,
+  } > | null,
 };
 
 export type ParticipantLandingPageDataFetcherQueryVariables = {

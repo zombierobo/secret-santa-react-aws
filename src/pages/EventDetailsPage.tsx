@@ -8,6 +8,7 @@ import ParticipantsManagerTable from "./ParticipantsManagerTable";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../amplify/data/resource";
 import GreetingMessage from "./components/GreetingMessage";
+import EventPairingGenerations from "./components/EventPairingGenerations";
 const client = generateClient<Schema>();
 
 function EventDetailsPageContent({ eventId }: { eventId: string }) {
@@ -76,7 +77,11 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
       <h1>Secret Santa Event name: {event?.name}</h1>
 
       {totalParticipantCount > 2 && (
-        <button onClick={generatePairings}>Generate pairings</button>
+        <>
+          <button onClick={generatePairings}>Generate pairings</button>
+
+          <EventPairingGenerations eventId={eventId} />
+        </>
       )}
       <ParticipantsManagerTable
         participants={participants}

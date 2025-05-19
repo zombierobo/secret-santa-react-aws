@@ -28,6 +28,10 @@ const schema = a
             allow.owner(),
           ]),
         participants: a.hasMany("Participant", "eventId"),
+        participantPairingGenerations: a.hasMany(
+          "ParticipantPairingGeneration",
+          "eventId"
+        ),
         owner: a
           .string()
           .authorization((allow) => [allow.owner().to(["read", "delete"])]),
@@ -51,6 +55,35 @@ const schema = a
         name: a.string().required(),
         email: a.string().required(),
         eventId: a.id().required(),
+      })
+      .authorization((allow) => [allow.owner()]),
+
+    ParticipantPairingGeneration: a
+      .model({
+        totalParticipants: a.integer(),
+        eventId: a.id(),
+        event: a.belongsTo("Event", "eventId"),
+        participantPairingGenerationPairs: a.hasMany(
+          "ParticipantPairingGenerationPair",
+          "participantPairingGenerationId"
+        ),
+        owner: a.id().required(),
+        complete: a.boolean().required(),
+      })
+      .authorization((allow) => [allow.owner()]),
+
+    ParticipantPairingGenerationPair: a
+      .model({
+        participantPairingGenerationId: a.id(),
+        participantPairingGeneration: a.belongsTo(
+          "ParticipantPairingGeneration",
+          "participantPairingGenerationId"
+        ),
+        gifterName: a.string().required(),
+        gifterEmail: a.string(),
+        receiverName: a.string().required(),
+        receiverEmail: a.string(),
+        owner: a.id().required(),
       })
       .authorization((allow) => [allow.owner()]),
 
@@ -106,16 +139,17 @@ const schema = a
       .handler(a.handler.function(participantInviteResponseMutation)),
 
     GenerateParticipantPairingMutationResponse: a.customType({
-      gifter: a.customType({
-        id: a.string().required(),
-        name: a.string().required(),
-        email: a.string(), // empty emails fails to serialize when using a.email()
-      }),
-      receiver: a.customType({
-        id: a.string().required(),
-        name: a.string().required(),
-        email: a.string(),
-      }),
+      success: a.boolean(),
+      // gifter: a.customType({
+      //   id: a.string().required(),
+      //   name: a.string().required(),
+      //   email: a.string(), // empty emails fails to serialize when using a.email()
+      // }),
+      // receiver: a.customType({
+      //   id: a.string().required(),
+      //   name: a.string().required(),
+      //   email: a.string(),
+      // }),
     }),
 
     generateParticipantPairingMutation: a
@@ -123,9 +157,7 @@ const schema = a
       .arguments({
         eventId: a.string().required(),
       })
-      .returns(
-        a.ref("GenerateParticipantPairingMutationResponse").array().required()
-      )
+      .returns(a.ref("GenerateParticipantPairingMutationResponse").required())
       .authorization((allow) => [
         allow.authenticated(), // TODO: make sure organizer cannot fetch another organizer's participants
       ])

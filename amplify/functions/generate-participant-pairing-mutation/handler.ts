@@ -8,56 +8,46 @@ import {
   listParticipantInviteResponses,
 } from "../../graphql/queries";
 import { generateSecretSantaWithExclusions } from "./pairing-algo";
+import { getAmplifyDataClientConfig } from "@aws-amplify/backend/function/runtime";
+import { nullThrows } from "../common-functions";
 
-Amplify.configure(
-  {
-    API: {
-      GraphQL: {
-        endpoint: env.AMPLIFY_DATA_GRAPHQL_ENDPOINT,
-        region: env.AWS_REGION,
-        defaultAuthMode: "identityPool",
-      },
-    },
-  },
-  {
-    Auth: {
-      credentialsProvider: {
-        getCredentialsAndIdentityId: async () => ({
-          credentials: {
-            accessKeyId: env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
-            sessionToken: env.AWS_SESSION_TOKEN,
-          },
-        }),
-        clearCredentialsAndIdentityId: () => {
-          /* noop */
-        },
-      },
-    },
-  }
-);
+const { resourceConfig, libraryOptions } =
+  await getAmplifyDataClientConfig(env);
+
+Amplify.configure(resourceConfig, libraryOptions);
 
 const client = generateClient<Schema>();
 
 export const handler: Schema["generateParticipantPairingMutation"]["functionHandler"] =
   async (event, _context) => {
     const eventId = event.arguments.eventId;
-    const eventData = await client.graphql({
-      query: getEvent,
-      variables: {
-        id: eventId,
-      },
-      authMode: "identityPool",
-    });
+    let eventOwner;
+    try {
+      const eventData = await client.graphql({
+        query: getEvent,
+        variables: {
+          id: eventId,
+        },
+      });
+      if (eventData.errors) {
+        console.error("error while fetching event", eventData.errors);
+        throw new Error("error while fetching event");
+      }
+      const eventObject = eventData.data.getEvent;
+      eventOwner = eventObject?.owner;
+      if (!eventObject || !eventOwner) {
+        throw new Error("event could not be loaded");
+      }
+    } catch (err) {
+      throw new Error("failed to fetch event" + JSON.stringify(err));
+    }
 
-    if (eventData.errors) {
-      console.error("error while fetching event", eventData.errors);
-      throw new Error("error while fetching event");
-    }
-    const eventObject = eventData.data.getEvent;
-    if (!eventObject) {
-      throw new Error("event could not be loaded");
-    }
+    const res = await client.models.ParticipantPairingGeneration.create({
+      eventId,
+      owner: eventOwner,
+      complete: false,
+    });
+    const participantPairingGenerationId = nullThrows(res.data).id;
 
     const manualParticipants = await client.graphql({
       query: listParticipants,
@@ -68,7 +58,6 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
           },
         },
       },
-      authMode: "identityPool",
     });
 
     const inviteAcceptedResponses = await client.graphql({
@@ -114,13 +103,40 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
         return acc;
       }, {});
 
+    const totalParticipants = Object.keys(allParticipants).length;
+
     const pairingMap = generateSecretSantaWithExclusions(
       Object.keys(allParticipants)
     );
-    return Object.entries(pairingMap).map(([gifterId, receiverId]) => {
-      return {
-        gifter: allParticipants[gifterId],
-        receiver: allParticipants[receiverId],
-      };
-    });
+
+    try {
+      const res2 = await Promise.all(
+        Object.entries(pairingMap).map(([gifterId, receiverId]) => {
+          return client.models.ParticipantPairingGenerationPair.create({
+            participantPairingGenerationId,
+            gifterName: allParticipants[gifterId].name,
+            gifterEmail: allParticipants[gifterId].email,
+            receiverName: allParticipants[receiverId].name,
+            receiverEmail: allParticipants[receiverId].email,
+            owner: eventOwner,
+          });
+        })
+      );
+      if (res2.every((c) => (c.data?.id.length ?? 0) > 0)) {
+        await client.models.ParticipantPairingGeneration.update({
+          id: participantPairingGenerationId,
+          totalParticipants,
+          complete: true,
+        });
+        return {
+          success: true,
+        };
+      } else {
+        return {
+          success: false,
+        };
+      }
+    } catch (err) {
+      throw new Error("Failed to write pairings to DB." + JSON.stringify(err));
+    }
   };

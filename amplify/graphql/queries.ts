@@ -14,6 +14,10 @@ export const getEvent = /* GraphQL */ `query GetEvent($id: ID!) {
     id
     name
     owner
+    participantPairingGenerations {
+      nextToken
+      __typename
+    }
     participants {
       nextToken
       __typename
@@ -61,6 +65,60 @@ export const getParticipantInviteResponse = /* GraphQL */ `query GetParticipantI
 ` as GeneratedQuery<
   APITypes.GetParticipantInviteResponseQueryVariables,
   APITypes.GetParticipantInviteResponseQuery
+>;
+export const getParticipantPairingGeneration = /* GraphQL */ `query GetParticipantPairingGeneration($id: ID!) {
+  getParticipantPairingGeneration(id: $id) {
+    createdAt
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    eventId
+    id
+    owner
+    participantPairingGenerationPairs {
+      nextToken
+      __typename
+    }
+    totalParticipants
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetParticipantPairingGenerationQueryVariables,
+  APITypes.GetParticipantPairingGenerationQuery
+>;
+export const getParticipantPairingGenerationPair = /* GraphQL */ `query GetParticipantPairingGenerationPair($id: ID!) {
+  getParticipantPairingGenerationPair(id: $id) {
+    createdAt
+    gifterEmail
+    gifterName
+    id
+    owner
+    participantPairingGeneration {
+      createdAt
+      eventId
+      id
+      owner
+      totalParticipants
+      updatedAt
+      __typename
+    }
+    participantPairingGenerationId
+    receiverEmail
+    receiverName
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetParticipantPairingGenerationPairQueryVariables,
+  APITypes.GetParticipantPairingGenerationPairQuery
 >;
 export const getTodo = /* GraphQL */ `query GetTodo($id: ID!) {
   getTodo(id: $id) {
@@ -136,6 +194,63 @@ export const listParticipantInviteResponses = /* GraphQL */ `query ListParticipa
 ` as GeneratedQuery<
   APITypes.ListParticipantInviteResponsesQueryVariables,
   APITypes.ListParticipantInviteResponsesQuery
+>;
+export const listParticipantPairingGenerationPairs = /* GraphQL */ `query ListParticipantPairingGenerationPairs(
+  $filter: ModelParticipantPairingGenerationPairFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listParticipantPairingGenerationPairs(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      createdAt
+      gifterEmail
+      gifterName
+      id
+      owner
+      participantPairingGenerationId
+      receiverEmail
+      receiverName
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListParticipantPairingGenerationPairsQueryVariables,
+  APITypes.ListParticipantPairingGenerationPairsQuery
+>;
+export const listParticipantPairingGenerations = /* GraphQL */ `query ListParticipantPairingGenerations(
+  $filter: ModelParticipantPairingGenerationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listParticipantPairingGenerations(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      createdAt
+      eventId
+      id
+      owner
+      totalParticipants
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListParticipantPairingGenerationsQueryVariables,
+  APITypes.ListParticipantPairingGenerationsQuery
 >;
 export const listParticipants = /* GraphQL */ `query ListParticipants(
   $filter: ModelParticipantFilterInput

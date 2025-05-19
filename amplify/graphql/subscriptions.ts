@@ -17,6 +17,10 @@ export const onCreateEvent = /* GraphQL */ `subscription OnCreateEvent(
     id
     name
     owner
+    participantPairingGenerations {
+      nextToken
+      __typename
+    }
     participants {
       nextToken
       __typename
@@ -74,6 +78,66 @@ export const onCreateParticipantInviteResponse = /* GraphQL */ `subscription OnC
   APITypes.OnCreateParticipantInviteResponseSubscriptionVariables,
   APITypes.OnCreateParticipantInviteResponseSubscription
 >;
+export const onCreateParticipantPairingGeneration = /* GraphQL */ `subscription OnCreateParticipantPairingGeneration(
+  $filter: ModelSubscriptionParticipantPairingGenerationFilterInput
+  $owner: String
+) {
+  onCreateParticipantPairingGeneration(filter: $filter, owner: $owner) {
+    createdAt
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    eventId
+    id
+    owner
+    participantPairingGenerationPairs {
+      nextToken
+      __typename
+    }
+    totalParticipants
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateParticipantPairingGenerationSubscriptionVariables,
+  APITypes.OnCreateParticipantPairingGenerationSubscription
+>;
+export const onCreateParticipantPairingGenerationPair = /* GraphQL */ `subscription OnCreateParticipantPairingGenerationPair(
+  $filter: ModelSubscriptionParticipantPairingGenerationPairFilterInput
+  $owner: String
+) {
+  onCreateParticipantPairingGenerationPair(filter: $filter, owner: $owner) {
+    createdAt
+    gifterEmail
+    gifterName
+    id
+    owner
+    participantPairingGeneration {
+      createdAt
+      eventId
+      id
+      owner
+      totalParticipants
+      updatedAt
+      __typename
+    }
+    participantPairingGenerationId
+    receiverEmail
+    receiverName
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateParticipantPairingGenerationPairSubscriptionVariables,
+  APITypes.OnCreateParticipantPairingGenerationPairSubscription
+>;
 export const onCreateTodo = /* GraphQL */ `subscription OnCreateTodo(
   $filter: ModelSubscriptionTodoFilterInput
   $owner: String
@@ -117,6 +181,10 @@ export const onDeleteEvent = /* GraphQL */ `subscription OnDeleteEvent(
     id
     name
     owner
+    participantPairingGenerations {
+      nextToken
+      __typename
+    }
     participants {
       nextToken
       __typename
@@ -174,6 +242,66 @@ export const onDeleteParticipantInviteResponse = /* GraphQL */ `subscription OnD
   APITypes.OnDeleteParticipantInviteResponseSubscriptionVariables,
   APITypes.OnDeleteParticipantInviteResponseSubscription
 >;
+export const onDeleteParticipantPairingGeneration = /* GraphQL */ `subscription OnDeleteParticipantPairingGeneration(
+  $filter: ModelSubscriptionParticipantPairingGenerationFilterInput
+  $owner: String
+) {
+  onDeleteParticipantPairingGeneration(filter: $filter, owner: $owner) {
+    createdAt
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    eventId
+    id
+    owner
+    participantPairingGenerationPairs {
+      nextToken
+      __typename
+    }
+    totalParticipants
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteParticipantPairingGenerationSubscriptionVariables,
+  APITypes.OnDeleteParticipantPairingGenerationSubscription
+>;
+export const onDeleteParticipantPairingGenerationPair = /* GraphQL */ `subscription OnDeleteParticipantPairingGenerationPair(
+  $filter: ModelSubscriptionParticipantPairingGenerationPairFilterInput
+  $owner: String
+) {
+  onDeleteParticipantPairingGenerationPair(filter: $filter, owner: $owner) {
+    createdAt
+    gifterEmail
+    gifterName
+    id
+    owner
+    participantPairingGeneration {
+      createdAt
+      eventId
+      id
+      owner
+      totalParticipants
+      updatedAt
+      __typename
+    }
+    participantPairingGenerationId
+    receiverEmail
+    receiverName
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteParticipantPairingGenerationPairSubscriptionVariables,
+  APITypes.OnDeleteParticipantPairingGenerationPairSubscription
+>;
 export const onDeleteTodo = /* GraphQL */ `subscription OnDeleteTodo(
   $filter: ModelSubscriptionTodoFilterInput
   $owner: String
@@ -217,6 +345,10 @@ export const onUpdateEvent = /* GraphQL */ `subscription OnUpdateEvent(
     id
     name
     owner
+    participantPairingGenerations {
+      nextToken
+      __typename
+    }
     participants {
       nextToken
       __typename
@@ -273,6 +405,66 @@ export const onUpdateParticipantInviteResponse = /* GraphQL */ `subscription OnU
 ` as GeneratedSubscription<
   APITypes.OnUpdateParticipantInviteResponseSubscriptionVariables,
   APITypes.OnUpdateParticipantInviteResponseSubscription
+>;
+export const onUpdateParticipantPairingGeneration = /* GraphQL */ `subscription OnUpdateParticipantPairingGeneration(
+  $filter: ModelSubscriptionParticipantPairingGenerationFilterInput
+  $owner: String
+) {
+  onUpdateParticipantPairingGeneration(filter: $filter, owner: $owner) {
+    createdAt
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
+    eventId
+    id
+    owner
+    participantPairingGenerationPairs {
+      nextToken
+      __typename
+    }
+    totalParticipants
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateParticipantPairingGenerationSubscriptionVariables,
+  APITypes.OnUpdateParticipantPairingGenerationSubscription
+>;
+export const onUpdateParticipantPairingGenerationPair = /* GraphQL */ `subscription OnUpdateParticipantPairingGenerationPair(
+  $filter: ModelSubscriptionParticipantPairingGenerationPairFilterInput
+  $owner: String
+) {
+  onUpdateParticipantPairingGenerationPair(filter: $filter, owner: $owner) {
+    createdAt
+    gifterEmail
+    gifterName
+    id
+    owner
+    participantPairingGeneration {
+      createdAt
+      eventId
+      id
+      owner
+      totalParticipants
+      updatedAt
+      __typename
+    }
+    participantPairingGenerationId
+    receiverEmail
+    receiverName
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateParticipantPairingGenerationPairSubscriptionVariables,
+  APITypes.OnUpdateParticipantPairingGenerationPairSubscription
 >;
 export const onUpdateTodo = /* GraphQL */ `subscription OnUpdateTodo(
   $filter: ModelSubscriptionTodoFilterInput

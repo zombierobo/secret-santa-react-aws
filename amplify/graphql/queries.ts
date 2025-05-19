@@ -204,6 +204,7 @@ export const listUserProfiles = /* GraphQL */ `query ListUserProfiles(
 export const participantInvitesAcceptedDataFetcher = /* GraphQL */ `query ParticipantInvitesAcceptedDataFetcher($eventId: String!) {
   participantInvitesAcceptedDataFetcher(eventId: $eventId) {
     email
+    id
     name
     __typename
   }

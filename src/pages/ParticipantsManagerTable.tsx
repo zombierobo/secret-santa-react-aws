@@ -2,7 +2,11 @@ import { ParticipantType } from "../../amplify/data/exported-types";
 
 function ParticipantsManagerTable(props: {
   participants: Array<ParticipantType>;
-  inviteAcceptedParticipants: Array<{ name: string; email: string }>;
+  inviteAcceptedParticipants: Array<{
+    name: string;
+    email: string;
+    id: string;
+  }>;
   addParticipant: (name: string) => void;
   eventId: string;
 }) {
@@ -31,16 +35,17 @@ function ParticipantsManagerTable(props: {
           <li key={p.id}> Manually added - {p.name}</li>
         ))}
         {props.inviteAcceptedParticipants.map((p) => (
-          <li key={p.email}>
+          <li key={p.id}>
             {" "}
             Invite accepted - {p.name} {p.email}
           </li>
         ))}
       </ul>
-      <button onClick={createParticipant}>+ add participant</button>
-
-      <h2>Invite people to this event</h2>
-      <button onClick={copyToClipboard}>Copy Link Invite participant</button>
+      <div>
+        <button onClick={createParticipant}>+ add participant</button>
+        <span>OR</span>
+        <button onClick={copyToClipboard}>Invite with link</button>
+      </div>
     </div>
   );
 }

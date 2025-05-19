@@ -70,6 +70,7 @@ const schema = a
     ParticipantInvitesAcceptedDataFetcherResponse: a.customType({
       name: a.string().required(),
       email: a.string().required(),
+      id: a.string().required(),
     }),
 
     participantInvitesAcceptedDataFetcher: a

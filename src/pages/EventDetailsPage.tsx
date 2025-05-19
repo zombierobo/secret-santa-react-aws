@@ -15,7 +15,7 @@ function EventDetailsPage() {
   const [event, setEvent] = useState<EventType>();
   const [participants, setParticipants] = useState<Array<ParticipantType>>([]);
   const [inviteAcceptedParticipants, setInviteAcceptedParticipants] = useState<
-    Array<{ name: string; email: string }>
+    Array<{ name: string; email: string; id: string }>
   >([]);
   useEffect(() => {
     (async function () {

@@ -199,6 +199,7 @@ export type ModelUserProfileConnection = {
 export type ParticipantInvitesAcceptedDataFetcherResponse = {
   __typename: "ParticipantInvitesAcceptedDataFetcherResponse",
   email: string,
+  id: string,
   name: string,
 };
 
@@ -637,6 +638,7 @@ export type ParticipantInvitesAcceptedDataFetcherQuery = {
   participantInvitesAcceptedDataFetcher?:  Array< {
     __typename: "ParticipantInvitesAcceptedDataFetcherResponse",
     email: string,
+    id: string,
     name: string,
   } > | null,
 };

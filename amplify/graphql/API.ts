@@ -285,13 +285,6 @@ export type ModelUserProfileConnection = {
   nextToken?: string | null,
 };
 
-export type ParticipantInvitesAcceptedDataFetcherResponse = {
-  __typename: "ParticipantInvitesAcceptedDataFetcherResponse",
-  email: string,
-  id: string,
-  name: string,
-};
-
 export type ParticipantLandingEventDetailsResponse = {
   __typename: "ParticipantLandingEventDetailsResponse",
   eventName: string,
@@ -455,9 +448,9 @@ export type DeleteUserProfileInput = {
   id: string,
 };
 
-export type GenerateParticipantPairingMutationResponse = {
-  __typename: "GenerateParticipantPairingMutationResponse",
-  success?: boolean | null,
+export type EventInvocationResponse = {
+  __typename: "EventInvocationResponse",
+  success: boolean,
 };
 
 export type ParticipantInviteResponseMutationResponse = {
@@ -961,19 +954,6 @@ export type ListUserProfilesQuery = {
   } | null,
 };
 
-export type ParticipantInvitesAcceptedDataFetcherQueryVariables = {
-  eventId: string,
-};
-
-export type ParticipantInvitesAcceptedDataFetcherQuery = {
-  participantInvitesAcceptedDataFetcher?:  Array< {
-    __typename: "ParticipantInvitesAcceptedDataFetcherResponse",
-    email: string,
-    id: string,
-    name: string,
-  } > | null,
-};
-
 export type ParticipantLandingPageDataFetcherQueryVariables = {
   eventId: string,
 };
@@ -1333,10 +1313,10 @@ export type GenerateParticipantPairingMutationMutationVariables = {
 };
 
 export type GenerateParticipantPairingMutationMutation = {
-  generateParticipantPairingMutation:  {
-    __typename: "GenerateParticipantPairingMutationResponse",
-    success?: boolean | null,
-  },
+  generateParticipantPairingMutation?:  {
+    __typename: "EventInvocationResponse",
+    success: boolean,
+  } | null,
 };
 
 export type ParticipantInviteResponseMutationMutationVariables = {

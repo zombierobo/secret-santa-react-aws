@@ -121,20 +121,15 @@ const schema = a
       .authorization((allow) => [allow.guest()])
       .handler(a.handler.function(participantInviteResponseMutation)),
 
-    GenerateParticipantPairingMutationResponse: a.customType({
-      success: a.boolean(),
-    }),
-
     generateParticipantPairingMutation: a
       .mutation()
       .arguments({
         eventId: a.string().required(),
       })
-      .returns(a.ref("GenerateParticipantPairingMutationResponse").required())
       .authorization((allow) => [
         allow.authenticated(), // TODO: make sure organizer cannot fetch another organizer's participants
       ])
-      .handler(a.handler.function(generateParticipantPairingMutation)),
+      .handler(a.handler.function(generateParticipantPairingMutation).async()),
   })
   .authorization((allow) => [
     allow.resource(participantLandingPageDataFetcher),

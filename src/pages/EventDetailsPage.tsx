@@ -19,7 +19,7 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
   >([]);
 
   useEffect(() => {
-    client.models.Participant.observeQuery({
+    const observer = client.models.Participant.observeQuery({
       filter: {
         eventId: {
           eq: eventId,
@@ -28,9 +28,10 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
     }).subscribe({
       next: (data) => setParticipants([...data.items]),
     });
+    return () => observer.unsubscribe();
   }, []);
   useEffect(() => {
-    client.models.ParticipantInviteResponse.observeQuery({
+    const observer = client.models.ParticipantInviteResponse.observeQuery({
       filter: {
         eventId: {
           eq: eventId,
@@ -39,6 +40,7 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
     }).subscribe({
       next: (data) => setInviteAcceptedParticipants([...data.items]),
     });
+    return () => observer.unsubscribe();
   }, []);
 
   function createParticipant(participantName: string) {
@@ -52,18 +54,12 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
   }
   const generatePairings = () => {
     (async function () {
-      const { data, errors } =
+      const { data } =
         await client.mutations.generateParticipantPairingMutation({
           eventId,
         });
-      if (data) {
-        window.alert(
-          "Success! Generate pairings successful" + JSON.stringify(data)
-        );
-      }
-      if (errors) {
-        window.alert("Error! Could not generate pairings");
-        console.error("Error! Could not generate pairings", errors);
+      if (data?.success !== true) {
+        window.alert("Something went wrong while generating pairs.");
       }
     })();
   };
@@ -72,16 +68,16 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
     participants.length + inviteAcceptedParticipants.length;
 
   return (
-    <main>
+    <>
       <GreetingMessage />
       <h1>Secret Santa Event name: {event?.name}</h1>
 
       {totalParticipantCount > 2 && (
-        <>
+        <div>
           <button onClick={generatePairings}>Generate pairings</button>
 
           <EventPairingGenerations eventId={eventId} />
-        </>
+        </div>
       )}
       <ParticipantsManagerTable
         participants={participants}
@@ -89,7 +85,7 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
         addParticipant={createParticipant}
         eventId={eventId ?? ""}
       />
-    </main>
+    </>
   );
 }
 

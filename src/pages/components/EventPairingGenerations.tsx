@@ -14,7 +14,7 @@ function EventPairingGenerations({ eventId }: { eventId: string }) {
     Array<ParticipantPairingGenerationType>
   >([]);
   useEffect(() => {
-    client.models.ParticipantPairingGeneration.observeQuery({
+    const observer = client.models.ParticipantPairingGeneration.observeQuery({
       filter: {
         eventId: {
           eq: eventId,
@@ -26,6 +26,7 @@ function EventPairingGenerations({ eventId }: { eventId: string }) {
     }).subscribe({
       next: (data) => setGenerations([...data.items]),
     });
+    return () => observer.unsubscribe();
   }, []);
 
   return (

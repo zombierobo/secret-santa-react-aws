@@ -21,7 +21,7 @@ function EventListPage() {
     eventName && client.models.Event.create({ name: eventName });
   }
   return (
-    <main>
+    <>
       <GreetingMessage />
       <h1>Your secret santa events</h1>
       <button onClick={createEvent}>+ new</button>
@@ -32,7 +32,7 @@ function EventListPage() {
           </li>
         ))}
       </ul>
-    </main>
+    </>
   );
 }
 

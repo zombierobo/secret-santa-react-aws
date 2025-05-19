@@ -28,17 +28,17 @@ function RenderPairingGeneration({
   }, []);
   return (
     <div>
-      This generation has {totalParticipants}
-      <ul>
+      This generation has {totalParticipants} participants
+      <div>
         {items.map((g) => (
-          <li key={g.id}>
+          <div key={g.id}>
             {g.gifterName}
             {g.gifterEmail ? `(${g.gifterEmail})` : ""} gifts to{" "}
             {g.receiverName}
             {g.receiverEmail ? `${g.receiverEmail}` : ""}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

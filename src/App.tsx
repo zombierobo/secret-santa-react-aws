@@ -15,34 +15,32 @@ function My404Component() {
 
 function App() {
   return (
-    <main>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/events"
-          element={
-            <Authenticator>
-              <EventListPage />
-            </Authenticator>
-          }
-        />
-        <Route
-          path="/events/:eventId"
-          element={
-            <Authenticator>
-              <EventDetailsPage />
-            </Authenticator>
-          }
-        />
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route
+        path="/events"
+        element={
+          <Authenticator>
+            <EventListPage />
+          </Authenticator>
+        }
+      />
+      <Route
+        path="/events/:eventId"
+        element={
+          <Authenticator>
+            <EventDetailsPage />
+          </Authenticator>
+        }
+      />
 
-        <Route
-          path="/join-event/:eventId"
-          element={<ParticipantJoinEventLandingPage />}
-        />
+      <Route
+        path="/join-event/:eventId"
+        element={<ParticipantJoinEventLandingPage />}
+      />
 
-        <Route path="*" element={<My404Component />} />
-      </Routes>
-    </main>
+      <Route path="*" element={<My404Component />} />
+    </Routes>
   );
 }
 

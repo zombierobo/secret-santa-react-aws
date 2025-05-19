@@ -99,13 +99,9 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
           totalParticipants,
           complete: true,
         });
-        return {
-          success: true,
-        };
+        return;
       } else {
-        return {
-          success: false,
-        };
+        return;
       }
     } catch (err) {
       throw new Error("Failed to write pairings to DB." + JSON.stringify(err));

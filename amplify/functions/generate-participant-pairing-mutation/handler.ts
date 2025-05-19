@@ -66,7 +66,7 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
           id: i.id,
           type: "invite",
           name: i.name,
-          email: "",
+          email: i.email,
         }))
       )
       .reduce((acc: { [participantId: string]: ParticipantData }, cur) => {

@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import type {
-  ParticipantType,
-  EventType,
-} from "../../amplify/data/exported-types";
+import type { ParticipantType } from "../../amplify/data/exported-types";
 import { useParams } from "react-router-dom";
 import ParticipantsManagerTable from "./ParticipantsManagerTable";
 import { generateClient } from "aws-amplify/data";
@@ -12,12 +9,20 @@ import EventPairingGenerations from "./components/EventPairingGenerations";
 const client = generateClient<Schema>();
 
 function EventDetailsPageContent({ eventId }: { eventId: string }) {
-  const [event, setEvent] = useState<EventType>();
+  const [eventName, setEventName] = useState<string>();
   const [participants, setParticipants] = useState<Array<ParticipantType>>([]);
   const [inviteAcceptedParticipants, setInviteAcceptedParticipants] = useState<
     Array<{ name: string; email: string; id: string }>
   >([]);
 
+  useEffect(() => {
+    (async function () {
+      const { data } = await client.models.Event.get({
+        id: eventId,
+      });
+      setEventName(data?.name);
+    })();
+  }, []);
   useEffect(() => {
     const observer = client.models.Participant.observeQuery({
       filter: {
@@ -70,7 +75,7 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
   return (
     <>
       <GreetingMessage />
-      <h1>Secret Santa Event name: {event?.name}</h1>
+      {eventName && <h1>Secret Santa Event name: {eventName}</h1>}
 
       {totalParticipantCount > 2 && (
         <div>

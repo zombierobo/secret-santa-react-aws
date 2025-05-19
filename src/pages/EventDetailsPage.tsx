@@ -49,7 +49,7 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
       participant && setParticipants((prev) => prev.concat(participant));
     })();
   }
-  const generatePairings = (e: any) => {
+  const generatePairings = () => {
     (async function () {
       const { data, errors } =
         await client.mutations.generateParticipantPairingMutation({

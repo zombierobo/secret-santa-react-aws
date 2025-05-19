@@ -2,14 +2,10 @@ import { type Schema } from "../../data/resource";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { env } from "$amplify/env/generate-participant-pairing-mutation"; // the import is '$amplify/env/<function-name>'
-import {
-  getEvent,
-  listParticipants,
-  listParticipantInviteResponses,
-} from "../../graphql/queries";
+
 import { generateSecretSantaWithExclusions } from "./pairing-algo";
 import { getAmplifyDataClientConfig } from "@aws-amplify/backend/function/runtime";
-import { nullThrows } from "../common-functions";
+import { fetchEvent, nullThrows } from "../common-functions";
 
 const { resourceConfig, libraryOptions } =
   await getAmplifyDataClientConfig(env);
@@ -21,26 +17,8 @@ const client = generateClient<Schema>();
 export const handler: Schema["generateParticipantPairingMutation"]["functionHandler"] =
   async (event, _context) => {
     const eventId = event.arguments.eventId;
-    let eventOwner;
-    try {
-      const eventData = await client.graphql({
-        query: getEvent,
-        variables: {
-          id: eventId,
-        },
-      });
-      if (eventData.errors) {
-        console.error("error while fetching event", eventData.errors);
-        throw new Error("error while fetching event");
-      }
-      const eventObject = eventData.data.getEvent;
-      eventOwner = eventObject?.owner;
-      if (!eventObject || !eventOwner) {
-        throw new Error("event could not be loaded");
-      }
-    } catch (err) {
-      throw new Error("failed to fetch event" + JSON.stringify(err));
-    }
+    const eventObject = await fetchEvent(client, event.arguments.eventId);
+    const eventOwner = nullThrows(eventObject.owner);
 
     const res = await client.models.ParticipantPairingGeneration.create({
       eventId,
@@ -49,28 +27,23 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
     });
     const participantPairingGenerationId = nullThrows(res.data).id;
 
-    const manualParticipants = await client.graphql({
-      query: listParticipants,
-      variables: {
+    const [manualParticipants, inviteAcceptedResponses] = await Promise.all([
+      client.models.Participant.list({
         filter: {
           eventId: {
             eq: eventId,
           },
         },
-      },
-    });
+      }),
 
-    const inviteAcceptedResponses = await client.graphql({
-      query: listParticipantInviteResponses,
-      variables: {
+      client.models.ParticipantInviteResponse.list({
         filter: {
           eventId: {
             eq: eventId,
           },
         },
-      },
-      authMode: "iam",
-    });
+      }),
+    ]);
 
     type ParticipantData = {
       id: string;
@@ -81,7 +54,7 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
 
     const allParticipants: {
       [participantId: string]: ParticipantData;
-    } = manualParticipants.data.listParticipants.items
+    } = manualParticipants.data
       .map((i) => ({
         id: i.id,
         type: "manual",
@@ -89,14 +62,12 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
         email: "",
       }))
       .concat(
-        inviteAcceptedResponses.data.listParticipantInviteResponses.items.map(
-          (i) => ({
-            id: i.id,
-            type: "invite",
-            name: i.name,
-            email: "",
-          })
-        )
+        inviteAcceptedResponses.data.map((i) => ({
+          id: i.id,
+          type: "invite",
+          name: i.name,
+          email: "",
+        }))
       )
       .reduce((acc: { [participantId: string]: ParticipantData }, cur) => {
         acc[cur.id] = cur;

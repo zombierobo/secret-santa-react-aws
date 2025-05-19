@@ -91,7 +91,10 @@ export const getParticipantPairingGeneration = /* GraphQL */ `query GetParticipa
       __typename
     }
     eventId
+    failed
+    failureReason
     id
+    jobDebugDetails
     owner
     participantPairingGenerationPairs {
       nextToken
@@ -117,7 +120,10 @@ export const getParticipantPairingGenerationPair = /* GraphQL */ `query GetParti
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt
@@ -253,7 +259,10 @@ export const listParticipantPairingGenerations = /* GraphQL */ `query ListPartic
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt

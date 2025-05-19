@@ -106,7 +106,10 @@ export const createParticipantPairingGeneration = /* GraphQL */ `mutation Create
       __typename
     }
     eventId
+    failed
+    failureReason
     id
+    jobDebugDetails
     owner
     participantPairingGenerationPairs {
       nextToken
@@ -135,7 +138,10 @@ export const createParticipantPairingGenerationPair = /* GraphQL */ `mutation Cr
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt
@@ -284,7 +290,10 @@ export const deleteParticipantPairingGeneration = /* GraphQL */ `mutation Delete
       __typename
     }
     eventId
+    failed
+    failureReason
     id
+    jobDebugDetails
     owner
     participantPairingGenerationPairs {
       nextToken
@@ -313,7 +322,10 @@ export const deleteParticipantPairingGenerationPair = /* GraphQL */ `mutation De
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt
@@ -490,7 +502,10 @@ export const updateParticipantPairingGeneration = /* GraphQL */ `mutation Update
       __typename
     }
     eventId
+    failed
+    failureReason
     id
+    jobDebugDetails
     owner
     participantPairingGenerationPairs {
       nextToken
@@ -519,7 +534,10 @@ export const updateParticipantPairingGenerationPair = /* GraphQL */ `mutation Up
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt

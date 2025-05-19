@@ -106,7 +106,10 @@ export const onCreateParticipantPairingGeneration = /* GraphQL */ `subscription 
       __typename
     }
     eventId
+    failed
+    failureReason
     id
+    jobDebugDetails
     owner
     participantPairingGenerationPairs {
       nextToken
@@ -135,7 +138,10 @@ export const onCreateParticipantPairingGenerationPair = /* GraphQL */ `subscript
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt
@@ -284,7 +290,10 @@ export const onDeleteParticipantPairingGeneration = /* GraphQL */ `subscription 
       __typename
     }
     eventId
+    failed
+    failureReason
     id
+    jobDebugDetails
     owner
     participantPairingGenerationPairs {
       nextToken
@@ -313,7 +322,10 @@ export const onDeleteParticipantPairingGenerationPair = /* GraphQL */ `subscript
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt
@@ -462,7 +474,10 @@ export const onUpdateParticipantPairingGeneration = /* GraphQL */ `subscription 
       __typename
     }
     eventId
+    failed
+    failureReason
     id
+    jobDebugDetails
     owner
     participantPairingGenerationPairs {
       nextToken
@@ -491,7 +506,10 @@ export const onUpdateParticipantPairingGenerationPair = /* GraphQL */ `subscript
       complete
       createdAt
       eventId
+      failed
+      failureReason
       id
+      jobDebugDetails
       owner
       totalParticipants
       updatedAt

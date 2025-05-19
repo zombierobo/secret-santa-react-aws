@@ -313,6 +313,26 @@ export type DeleteUserProfileInput = {
   id: string,
 };
 
+export type GenerateParticipantPairingMutationResponse = {
+  __typename: "GenerateParticipantPairingMutationResponse",
+  gifter?: GenerateParticipantPairingMutationResponseGifter | null,
+  receiver?: GenerateParticipantPairingMutationResponseReceiver | null,
+};
+
+export type GenerateParticipantPairingMutationResponseGifter = {
+  __typename: "GenerateParticipantPairingMutationResponseGifter",
+  email?: string | null,
+  id: string,
+  name: string,
+};
+
+export type GenerateParticipantPairingMutationResponseReceiver = {
+  __typename: "GenerateParticipantPairingMutationResponseReceiver",
+  email?: string | null,
+  id: string,
+  name: string,
+};
+
 export type ParticipantInviteResponseMutationResponse = {
   __typename: "ParticipantInviteResponseMutationResponse",
   success: boolean,
@@ -843,6 +863,28 @@ export type DeleteUserProfileMutation = {
     profileOwner?: string | null,
     updatedAt: string,
   } | null,
+};
+
+export type GenerateParticipantPairingMutationMutationVariables = {
+  eventId: string,
+};
+
+export type GenerateParticipantPairingMutationMutation = {
+  generateParticipantPairingMutation:  Array< {
+    __typename: "GenerateParticipantPairingMutationResponse",
+    gifter?:  {
+      __typename: "GenerateParticipantPairingMutationResponseGifter",
+      email?: string | null,
+      id: string,
+      name: string,
+    } | null,
+    receiver?:  {
+      __typename: "GenerateParticipantPairingMutationResponseReceiver",
+      email?: string | null,
+      id: string,
+      name: string,
+    } | null,
+  } | null >,
 };
 
 export type ParticipantInviteResponseMutationMutationVariables = {

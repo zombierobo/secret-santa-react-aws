@@ -3,6 +3,7 @@ import { participantLandingPageDataFetcher } from "../functions/participant-land
 import { participantInviteResponseMutation } from "../functions/participant-invite-response-mutation/resource";
 import { postConfirmation } from "../auth/post-confirmation/resource";
 import { participantInvitesAcceptedDataFetcher } from "../functions/participant-invites-accepted-data-fetcher/resource";
+import { generateParticipantPairingMutation } from "../functions/generate-participant-pairing-mutation/resource";
 
 const schema = a
   .schema({
@@ -103,11 +104,38 @@ const schema = a
       .returns(a.ref("ParticipantInviteResponseMutationResponse"))
       .authorization((allow) => [allow.guest()])
       .handler(a.handler.function(participantInviteResponseMutation)),
+
+    GenerateParticipantPairingMutationResponse: a.customType({
+      gifter: a.customType({
+        id: a.string().required(),
+        name: a.string().required(),
+        email: a.string(), // empty emails fails to serialize when using a.email()
+      }),
+      receiver: a.customType({
+        id: a.string().required(),
+        name: a.string().required(),
+        email: a.string(),
+      }),
+    }),
+
+    generateParticipantPairingMutation: a
+      .mutation()
+      .arguments({
+        eventId: a.string().required(),
+      })
+      .returns(
+        a.ref("GenerateParticipantPairingMutationResponse").array().required()
+      )
+      .authorization((allow) => [
+        allow.authenticated(), // TODO: make sure organizer cannot fetch another organizer's participants
+      ])
+      .handler(a.handler.function(generateParticipantPairingMutation)),
   })
   .authorization((allow) => [
     allow.resource(participantLandingPageDataFetcher),
     allow.resource(participantInvitesAcceptedDataFetcher),
     allow.resource(participantInviteResponseMutation),
+    allow.resource(generateParticipantPairingMutation),
     allow.resource(postConfirmation),
   ]);
 

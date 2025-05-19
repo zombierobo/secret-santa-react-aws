@@ -10,8 +10,7 @@ import { Schema } from "../../amplify/data/resource";
 import GreetingMessage from "./components/GreetingMessage";
 const client = generateClient<Schema>();
 
-function EventDetailsPage() {
-  const { eventId } = useParams();
+function EventDetailsPageContent({ eventId }: { eventId: string }) {
   const [event, setEvent] = useState<EventType>();
   const [participants, setParticipants] = useState<Array<ParticipantType>>([]);
   const [inviteAcceptedParticipants, setInviteAcceptedParticipants] = useState<
@@ -50,11 +49,35 @@ function EventDetailsPage() {
       participant && setParticipants((prev) => prev.concat(participant));
     })();
   }
+  const generatePairings = (e: any) => {
+    (async function () {
+      const { data, errors } =
+        await client.mutations.generateParticipantPairingMutation({
+          eventId,
+        });
+      if (data) {
+        window.alert(
+          "Success! Generate pairings successful" + JSON.stringify(data)
+        );
+      }
+      if (errors) {
+        window.alert("Error! Could not generate pairings");
+        console.error("Error! Could not generate pairings", errors);
+      }
+    })();
+  };
+
+  const totalParticipantCount =
+    participants.length + inviteAcceptedParticipants.length;
 
   return (
     <main>
       <GreetingMessage />
       <h1>Secret Santa Event name: {event?.name}</h1>
+
+      {totalParticipantCount > 2 && (
+        <button onClick={generatePairings}>Generate pairings</button>
+      )}
       <ParticipantsManagerTable
         participants={participants}
         inviteAcceptedParticipants={inviteAcceptedParticipants}
@@ -63,6 +86,11 @@ function EventDetailsPage() {
       />
     </main>
   );
+}
+
+function EventDetailsPage() {
+  const { eventId } = useParams();
+  return eventId && <EventDetailsPageContent eventId={eventId} />;
 }
 
 export default EventDetailsPage;

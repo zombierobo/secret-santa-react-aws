@@ -208,6 +208,27 @@ export const deleteUserProfile = /* GraphQL */ `mutation DeleteUserProfile(
   APITypes.DeleteUserProfileMutationVariables,
   APITypes.DeleteUserProfileMutation
 >;
+export const generateParticipantPairingMutation = /* GraphQL */ `mutation GenerateParticipantPairingMutation($eventId: String!) {
+  generateParticipantPairingMutation(eventId: $eventId) {
+    gifter {
+      email
+      id
+      name
+      __typename
+    }
+    receiver {
+      email
+      id
+      name
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.GenerateParticipantPairingMutationMutationVariables,
+  APITypes.GenerateParticipantPairingMutationMutation
+>;
 export const participantInviteResponseMutation = /* GraphQL */ `mutation ParticipantInviteResponseMutation(
   $email: String!
   $eventId: String!

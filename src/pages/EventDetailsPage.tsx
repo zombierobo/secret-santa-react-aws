@@ -17,24 +17,28 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
   const [inviteAcceptedParticipants, setInviteAcceptedParticipants] = useState<
     Array<{ name: string; email: string; id: string }>
   >([]);
+
   useEffect(() => {
-    (async function () {
-      if (eventId) {
-        const res = await client.models.Event.get({ id: eventId });
-        const eventData: EventType | null = res.data;
-        if (eventData) {
-          setEvent(eventData);
-          await Promise.all([
-            eventData.participants().then((r) => setParticipants(r.data)),
-            eventData
-              .participantInviteResponses()
-              .then((r) => setInviteAcceptedParticipants(r.data ?? [])),
-          ]);
-        }
-      } else {
-        console.error("Event id is missing");
-      }
-    })();
+    client.models.Participant.observeQuery({
+      filter: {
+        eventId: {
+          eq: eventId,
+        },
+      },
+    }).subscribe({
+      next: (data) => setParticipants([...data.items]),
+    });
+  }, []);
+  useEffect(() => {
+    client.models.ParticipantInviteResponse.observeQuery({
+      filter: {
+        eventId: {
+          eq: eventId,
+        },
+      },
+    }).subscribe({
+      next: (data) => setInviteAcceptedParticipants([...data.items]),
+    });
   }, []);
 
   function createParticipant(participantName: string) {

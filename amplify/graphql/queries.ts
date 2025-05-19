@@ -14,6 +14,10 @@ export const getEvent = /* GraphQL */ `query GetEvent($id: ID!) {
     id
     name
     owner
+    participantInviteResponses {
+      nextToken
+      __typename
+    }
     participantPairingGenerations {
       nextToken
       __typename
@@ -54,6 +58,14 @@ export const getParticipantInviteResponse = /* GraphQL */ `query GetParticipantI
   getParticipantInviteResponse(id: $id) {
     createdAt
     email
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
     eventId
     id
     name
@@ -68,6 +80,7 @@ export const getParticipantInviteResponse = /* GraphQL */ `query GetParticipantI
 >;
 export const getParticipantPairingGeneration = /* GraphQL */ `query GetParticipantPairingGeneration($id: ID!) {
   getParticipantPairingGeneration(id: $id) {
+    complete
     createdAt
     event {
       createdAt
@@ -101,6 +114,7 @@ export const getParticipantPairingGenerationPair = /* GraphQL */ `query GetParti
     id
     owner
     participantPairingGeneration {
+      complete
       createdAt
       eventId
       id
@@ -236,6 +250,7 @@ export const listParticipantPairingGenerations = /* GraphQL */ `query ListPartic
     nextToken: $nextToken
   ) {
     items {
+      complete
       createdAt
       eventId
       id

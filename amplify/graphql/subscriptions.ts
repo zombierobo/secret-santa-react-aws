@@ -17,6 +17,10 @@ export const onCreateEvent = /* GraphQL */ `subscription OnCreateEvent(
     id
     name
     owner
+    participantInviteResponses {
+      nextToken
+      __typename
+    }
     participantPairingGenerations {
       nextToken
       __typename
@@ -66,6 +70,14 @@ export const onCreateParticipantInviteResponse = /* GraphQL */ `subscription OnC
   onCreateParticipantInviteResponse(filter: $filter, owner: $owner) {
     createdAt
     email
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
     eventId
     id
     name
@@ -83,6 +95,7 @@ export const onCreateParticipantPairingGeneration = /* GraphQL */ `subscription 
   $owner: String
 ) {
   onCreateParticipantPairingGeneration(filter: $filter, owner: $owner) {
+    complete
     createdAt
     event {
       createdAt
@@ -119,6 +132,7 @@ export const onCreateParticipantPairingGenerationPair = /* GraphQL */ `subscript
     id
     owner
     participantPairingGeneration {
+      complete
       createdAt
       eventId
       id
@@ -181,6 +195,10 @@ export const onDeleteEvent = /* GraphQL */ `subscription OnDeleteEvent(
     id
     name
     owner
+    participantInviteResponses {
+      nextToken
+      __typename
+    }
     participantPairingGenerations {
       nextToken
       __typename
@@ -230,6 +248,14 @@ export const onDeleteParticipantInviteResponse = /* GraphQL */ `subscription OnD
   onDeleteParticipantInviteResponse(filter: $filter, owner: $owner) {
     createdAt
     email
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
     eventId
     id
     name
@@ -247,6 +273,7 @@ export const onDeleteParticipantPairingGeneration = /* GraphQL */ `subscription 
   $owner: String
 ) {
   onDeleteParticipantPairingGeneration(filter: $filter, owner: $owner) {
+    complete
     createdAt
     event {
       createdAt
@@ -283,6 +310,7 @@ export const onDeleteParticipantPairingGenerationPair = /* GraphQL */ `subscript
     id
     owner
     participantPairingGeneration {
+      complete
       createdAt
       eventId
       id
@@ -345,6 +373,10 @@ export const onUpdateEvent = /* GraphQL */ `subscription OnUpdateEvent(
     id
     name
     owner
+    participantInviteResponses {
+      nextToken
+      __typename
+    }
     participantPairingGenerations {
       nextToken
       __typename
@@ -394,6 +426,14 @@ export const onUpdateParticipantInviteResponse = /* GraphQL */ `subscription OnU
   onUpdateParticipantInviteResponse(filter: $filter, owner: $owner) {
     createdAt
     email
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
     eventId
     id
     name
@@ -411,6 +451,7 @@ export const onUpdateParticipantPairingGeneration = /* GraphQL */ `subscription 
   $owner: String
 ) {
   onUpdateParticipantPairingGeneration(filter: $filter, owner: $owner) {
+    complete
     createdAt
     event {
       createdAt
@@ -447,6 +488,7 @@ export const onUpdateParticipantPairingGenerationPair = /* GraphQL */ `subscript
     id
     owner
     participantPairingGeneration {
+      complete
       createdAt
       eventId
       id

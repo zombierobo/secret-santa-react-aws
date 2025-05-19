@@ -17,6 +17,10 @@ export const createEvent = /* GraphQL */ `mutation CreateEvent(
     id
     name
     owner
+    participantInviteResponses {
+      nextToken
+      __typename
+    }
     participantPairingGenerations {
       nextToken
       __typename
@@ -66,6 +70,14 @@ export const createParticipantInviteResponse = /* GraphQL */ `mutation CreatePar
   createParticipantInviteResponse(condition: $condition, input: $input) {
     createdAt
     email
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
     eventId
     id
     name
@@ -83,6 +95,7 @@ export const createParticipantPairingGeneration = /* GraphQL */ `mutation Create
   $input: CreateParticipantPairingGenerationInput!
 ) {
   createParticipantPairingGeneration(condition: $condition, input: $input) {
+    complete
     createdAt
     event {
       createdAt
@@ -119,6 +132,7 @@ export const createParticipantPairingGenerationPair = /* GraphQL */ `mutation Cr
     id
     owner
     participantPairingGeneration {
+      complete
       createdAt
       eventId
       id
@@ -181,6 +195,10 @@ export const deleteEvent = /* GraphQL */ `mutation DeleteEvent(
     id
     name
     owner
+    participantInviteResponses {
+      nextToken
+      __typename
+    }
     participantPairingGenerations {
       nextToken
       __typename
@@ -230,6 +248,14 @@ export const deleteParticipantInviteResponse = /* GraphQL */ `mutation DeletePar
   deleteParticipantInviteResponse(condition: $condition, input: $input) {
     createdAt
     email
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
     eventId
     id
     name
@@ -247,6 +273,7 @@ export const deleteParticipantPairingGeneration = /* GraphQL */ `mutation Delete
   $input: DeleteParticipantPairingGenerationInput!
 ) {
   deleteParticipantPairingGeneration(condition: $condition, input: $input) {
+    complete
     createdAt
     event {
       createdAt
@@ -283,6 +310,7 @@ export const deleteParticipantPairingGenerationPair = /* GraphQL */ `mutation De
     id
     owner
     participantPairingGeneration {
+      complete
       createdAt
       eventId
       id
@@ -373,6 +401,10 @@ export const updateEvent = /* GraphQL */ `mutation UpdateEvent(
     id
     name
     owner
+    participantInviteResponses {
+      nextToken
+      __typename
+    }
     participantPairingGenerations {
       nextToken
       __typename
@@ -422,6 +454,14 @@ export const updateParticipantInviteResponse = /* GraphQL */ `mutation UpdatePar
   updateParticipantInviteResponse(condition: $condition, input: $input) {
     createdAt
     email
+    event {
+      createdAt
+      id
+      name
+      owner
+      updatedAt
+      __typename
+    }
     eventId
     id
     name
@@ -439,6 +479,7 @@ export const updateParticipantPairingGeneration = /* GraphQL */ `mutation Update
   $input: UpdateParticipantPairingGenerationInput!
 ) {
   updateParticipantPairingGeneration(condition: $condition, input: $input) {
+    complete
     createdAt
     event {
       createdAt
@@ -475,6 +516,7 @@ export const updateParticipantPairingGenerationPair = /* GraphQL */ `mutation Up
     id
     owner
     participantPairingGeneration {
+      complete
       createdAt
       eventId
       id

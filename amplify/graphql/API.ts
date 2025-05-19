@@ -8,8 +8,27 @@ export type Event = {
   id: string,
   name: string,
   owner?: string | null,
+  participantInviteResponses?: ModelParticipantInviteResponseConnection | null,
   participantPairingGenerations?: ModelParticipantPairingGenerationConnection | null,
   participants?: ModelParticipantConnection | null,
+  updatedAt: string,
+};
+
+export type ModelParticipantInviteResponseConnection = {
+  __typename: "ModelParticipantInviteResponseConnection",
+  items:  Array<ParticipantInviteResponse | null >,
+  nextToken?: string | null,
+};
+
+export type ParticipantInviteResponse = {
+  __typename: "ParticipantInviteResponse",
+  createdAt: string,
+  email: string,
+  event?: Event | null,
+  eventId?: string | null,
+  id: string,
+  name: string,
+  owner: string,
   updatedAt: string,
 };
 
@@ -21,13 +40,14 @@ export type ModelParticipantPairingGenerationConnection = {
 
 export type ParticipantPairingGeneration = {
   __typename: "ParticipantPairingGeneration",
+  complete: boolean,
   createdAt: string,
   event?: Event | null,
   eventId?: string | null,
   id: string,
   owner: string,
   participantPairingGenerationPairs?: ModelParticipantPairingGenerationPairConnection | null,
-  totalParticipants: number,
+  totalParticipants?: number | null,
   updatedAt: string,
 };
 
@@ -62,17 +82,6 @@ export type Participant = {
   createdAt: string,
   event?: Event | null,
   eventId?: string | null,
-  id: string,
-  name: string,
-  owner?: string | null,
-  updatedAt: string,
-};
-
-export type ParticipantInviteResponse = {
-  __typename: "ParticipantInviteResponse",
-  createdAt: string,
-  email: string,
-  eventId: string,
   id: string,
   name: string,
   owner?: string | null,
@@ -179,14 +188,8 @@ export type ModelParticipantInviteResponseFilterInput = {
   name?: ModelStringInput | null,
   not?: ModelParticipantInviteResponseFilterInput | null,
   or?: Array< ModelParticipantInviteResponseFilterInput | null > | null,
-  owner?: ModelStringInput | null,
+  owner?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
-};
-
-export type ModelParticipantInviteResponseConnection = {
-  __typename: "ModelParticipantInviteResponseConnection",
-  items:  Array<ParticipantInviteResponse | null >,
-  nextToken?: string | null,
 };
 
 export type ModelParticipantPairingGenerationPairFilterInput = {
@@ -206,6 +209,7 @@ export type ModelParticipantPairingGenerationPairFilterInput = {
 
 export type ModelParticipantPairingGenerationFilterInput = {
   and?: Array< ModelParticipantPairingGenerationFilterInput | null > | null,
+  complete?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   eventId?: ModelIDInput | null,
   id?: ModelIDInput | null,
@@ -214,6 +218,13 @@ export type ModelParticipantPairingGenerationFilterInput = {
   owner?: ModelIDInput | null,
   totalParticipants?: ModelIntInput | null,
   updatedAt?: ModelStringInput | null,
+};
+
+export type ModelBooleanInput = {
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  eq?: boolean | null,
+  ne?: boolean | null,
 };
 
 export type ModelIntInput = {
@@ -329,19 +340,21 @@ export type ModelParticipantInviteResponseConditionInput = {
   name?: ModelStringInput | null,
   not?: ModelParticipantInviteResponseConditionInput | null,
   or?: Array< ModelParticipantInviteResponseConditionInput | null > | null,
-  owner?: ModelStringInput | null,
+  owner?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
 export type CreateParticipantInviteResponseInput = {
   email: string,
-  eventId: string,
+  eventId?: string | null,
   id?: string | null,
   name: string,
+  owner: string,
 };
 
 export type ModelParticipantPairingGenerationConditionInput = {
   and?: Array< ModelParticipantPairingGenerationConditionInput | null > | null,
+  complete?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   eventId?: ModelIDInput | null,
   not?: ModelParticipantPairingGenerationConditionInput | null,
@@ -352,10 +365,11 @@ export type ModelParticipantPairingGenerationConditionInput = {
 };
 
 export type CreateParticipantPairingGenerationInput = {
+  complete: boolean,
   eventId?: string | null,
   id?: string | null,
   owner: string,
-  totalParticipants: number,
+  totalParticipants?: number | null,
 };
 
 export type ModelParticipantPairingGenerationPairConditionInput = {
@@ -469,9 +483,11 @@ export type UpdateParticipantInviteResponseInput = {
   eventId?: string | null,
   id: string,
   name?: string | null,
+  owner?: string | null,
 };
 
 export type UpdateParticipantPairingGenerationInput = {
+  complete?: boolean | null,
   eventId?: string | null,
   id: string,
   owner?: string | null,
@@ -564,6 +580,7 @@ export type ModelSubscriptionParticipantInviteResponseFilterInput = {
 
 export type ModelSubscriptionParticipantPairingGenerationFilterInput = {
   and?: Array< ModelSubscriptionParticipantPairingGenerationFilterInput | null > | null,
+  complete?: ModelSubscriptionBooleanInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   eventId?: ModelSubscriptionIDInput | null,
   id?: ModelSubscriptionIDInput | null,
@@ -571,6 +588,11 @@ export type ModelSubscriptionParticipantPairingGenerationFilterInput = {
   owner?: ModelStringInput | null,
   totalParticipants?: ModelSubscriptionIntInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionBooleanInput = {
+  eq?: boolean | null,
+  ne?: boolean | null,
 };
 
 export type ModelSubscriptionIntInput = {
@@ -630,6 +652,10 @@ export type GetEventQuery = {
     id: string,
     name: string,
     owner?: string | null,
+    participantInviteResponses?:  {
+      __typename: "ModelParticipantInviteResponseConnection",
+      nextToken?: string | null,
+    } | null,
     participantPairingGenerations?:  {
       __typename: "ModelParticipantPairingGenerationConnection",
       nextToken?: string | null,
@@ -675,10 +701,18 @@ export type GetParticipantInviteResponseQuery = {
     __typename: "ParticipantInviteResponse",
     createdAt: string,
     email: string,
-    eventId: string,
+    event?:  {
+      __typename: "Event",
+      createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null,
+    eventId?: string | null,
     id: string,
     name: string,
-    owner?: string | null,
+    owner: string,
     updatedAt: string,
   } | null,
 };
@@ -690,6 +724,7 @@ export type GetParticipantPairingGenerationQueryVariables = {
 export type GetParticipantPairingGenerationQuery = {
   getParticipantPairingGeneration?:  {
     __typename: "ParticipantPairingGeneration",
+    complete: boolean,
     createdAt: string,
     event?:  {
       __typename: "Event",
@@ -706,7 +741,7 @@ export type GetParticipantPairingGenerationQuery = {
       __typename: "ModelParticipantPairingGenerationPairConnection",
       nextToken?: string | null,
     } | null,
-    totalParticipants: number,
+    totalParticipants?: number | null,
     updatedAt: string,
   } | null,
 };
@@ -725,11 +760,12 @@ export type GetParticipantPairingGenerationPairQuery = {
     owner: string,
     participantPairingGeneration?:  {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null,
     participantPairingGenerationId?: string | null,
@@ -803,10 +839,10 @@ export type ListParticipantInviteResponsesQuery = {
       __typename: "ParticipantInviteResponse",
       createdAt: string,
       email: string,
-      eventId: string,
+      eventId?: string | null,
       id: string,
       name: string,
-      owner?: string | null,
+      owner: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -849,11 +885,12 @@ export type ListParticipantPairingGenerationsQuery = {
     __typename: "ModelParticipantPairingGenerationConnection",
     items:  Array< {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -961,6 +998,10 @@ export type CreateEventMutation = {
     id: string,
     name: string,
     owner?: string | null,
+    participantInviteResponses?:  {
+      __typename: "ModelParticipantInviteResponseConnection",
+      nextToken?: string | null,
+    } | null,
     participantPairingGenerations?:  {
       __typename: "ModelParticipantPairingGenerationConnection",
       nextToken?: string | null,
@@ -1008,10 +1049,18 @@ export type CreateParticipantInviteResponseMutation = {
     __typename: "ParticipantInviteResponse",
     createdAt: string,
     email: string,
-    eventId: string,
+    event?:  {
+      __typename: "Event",
+      createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null,
+    eventId?: string | null,
     id: string,
     name: string,
-    owner?: string | null,
+    owner: string,
     updatedAt: string,
   } | null,
 };
@@ -1024,6 +1073,7 @@ export type CreateParticipantPairingGenerationMutationVariables = {
 export type CreateParticipantPairingGenerationMutation = {
   createParticipantPairingGeneration?:  {
     __typename: "ParticipantPairingGeneration",
+    complete: boolean,
     createdAt: string,
     event?:  {
       __typename: "Event",
@@ -1040,7 +1090,7 @@ export type CreateParticipantPairingGenerationMutation = {
       __typename: "ModelParticipantPairingGenerationPairConnection",
       nextToken?: string | null,
     } | null,
-    totalParticipants: number,
+    totalParticipants?: number | null,
     updatedAt: string,
   } | null,
 };
@@ -1060,11 +1110,12 @@ export type CreateParticipantPairingGenerationPairMutation = {
     owner: string,
     participantPairingGeneration?:  {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null,
     participantPairingGenerationId?: string | null,
@@ -1118,6 +1169,10 @@ export type DeleteEventMutation = {
     id: string,
     name: string,
     owner?: string | null,
+    participantInviteResponses?:  {
+      __typename: "ModelParticipantInviteResponseConnection",
+      nextToken?: string | null,
+    } | null,
     participantPairingGenerations?:  {
       __typename: "ModelParticipantPairingGenerationConnection",
       nextToken?: string | null,
@@ -1165,10 +1220,18 @@ export type DeleteParticipantInviteResponseMutation = {
     __typename: "ParticipantInviteResponse",
     createdAt: string,
     email: string,
-    eventId: string,
+    event?:  {
+      __typename: "Event",
+      createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null,
+    eventId?: string | null,
     id: string,
     name: string,
-    owner?: string | null,
+    owner: string,
     updatedAt: string,
   } | null,
 };
@@ -1181,6 +1244,7 @@ export type DeleteParticipantPairingGenerationMutationVariables = {
 export type DeleteParticipantPairingGenerationMutation = {
   deleteParticipantPairingGeneration?:  {
     __typename: "ParticipantPairingGeneration",
+    complete: boolean,
     createdAt: string,
     event?:  {
       __typename: "Event",
@@ -1197,7 +1261,7 @@ export type DeleteParticipantPairingGenerationMutation = {
       __typename: "ModelParticipantPairingGenerationPairConnection",
       nextToken?: string | null,
     } | null,
-    totalParticipants: number,
+    totalParticipants?: number | null,
     updatedAt: string,
   } | null,
 };
@@ -1217,11 +1281,12 @@ export type DeleteParticipantPairingGenerationPairMutation = {
     owner: string,
     participantPairingGeneration?:  {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null,
     participantPairingGenerationId?: string | null,
@@ -1299,6 +1364,10 @@ export type UpdateEventMutation = {
     id: string,
     name: string,
     owner?: string | null,
+    participantInviteResponses?:  {
+      __typename: "ModelParticipantInviteResponseConnection",
+      nextToken?: string | null,
+    } | null,
     participantPairingGenerations?:  {
       __typename: "ModelParticipantPairingGenerationConnection",
       nextToken?: string | null,
@@ -1346,10 +1415,18 @@ export type UpdateParticipantInviteResponseMutation = {
     __typename: "ParticipantInviteResponse",
     createdAt: string,
     email: string,
-    eventId: string,
+    event?:  {
+      __typename: "Event",
+      createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null,
+    eventId?: string | null,
     id: string,
     name: string,
-    owner?: string | null,
+    owner: string,
     updatedAt: string,
   } | null,
 };
@@ -1362,6 +1439,7 @@ export type UpdateParticipantPairingGenerationMutationVariables = {
 export type UpdateParticipantPairingGenerationMutation = {
   updateParticipantPairingGeneration?:  {
     __typename: "ParticipantPairingGeneration",
+    complete: boolean,
     createdAt: string,
     event?:  {
       __typename: "Event",
@@ -1378,7 +1456,7 @@ export type UpdateParticipantPairingGenerationMutation = {
       __typename: "ModelParticipantPairingGenerationPairConnection",
       nextToken?: string | null,
     } | null,
-    totalParticipants: number,
+    totalParticipants?: number | null,
     updatedAt: string,
   } | null,
 };
@@ -1398,11 +1476,12 @@ export type UpdateParticipantPairingGenerationPairMutation = {
     owner: string,
     participantPairingGeneration?:  {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null,
     participantPairingGenerationId?: string | null,
@@ -1456,6 +1535,10 @@ export type OnCreateEventSubscription = {
     id: string,
     name: string,
     owner?: string | null,
+    participantInviteResponses?:  {
+      __typename: "ModelParticipantInviteResponseConnection",
+      nextToken?: string | null,
+    } | null,
     participantPairingGenerations?:  {
       __typename: "ModelParticipantPairingGenerationConnection",
       nextToken?: string | null,
@@ -1503,10 +1586,18 @@ export type OnCreateParticipantInviteResponseSubscription = {
     __typename: "ParticipantInviteResponse",
     createdAt: string,
     email: string,
-    eventId: string,
+    event?:  {
+      __typename: "Event",
+      createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null,
+    eventId?: string | null,
     id: string,
     name: string,
-    owner?: string | null,
+    owner: string,
     updatedAt: string,
   } | null,
 };
@@ -1519,6 +1610,7 @@ export type OnCreateParticipantPairingGenerationSubscriptionVariables = {
 export type OnCreateParticipantPairingGenerationSubscription = {
   onCreateParticipantPairingGeneration?:  {
     __typename: "ParticipantPairingGeneration",
+    complete: boolean,
     createdAt: string,
     event?:  {
       __typename: "Event",
@@ -1535,7 +1627,7 @@ export type OnCreateParticipantPairingGenerationSubscription = {
       __typename: "ModelParticipantPairingGenerationPairConnection",
       nextToken?: string | null,
     } | null,
-    totalParticipants: number,
+    totalParticipants?: number | null,
     updatedAt: string,
   } | null,
 };
@@ -1555,11 +1647,12 @@ export type OnCreateParticipantPairingGenerationPairSubscription = {
     owner: string,
     participantPairingGeneration?:  {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null,
     participantPairingGenerationId?: string | null,
@@ -1613,6 +1706,10 @@ export type OnDeleteEventSubscription = {
     id: string,
     name: string,
     owner?: string | null,
+    participantInviteResponses?:  {
+      __typename: "ModelParticipantInviteResponseConnection",
+      nextToken?: string | null,
+    } | null,
     participantPairingGenerations?:  {
       __typename: "ModelParticipantPairingGenerationConnection",
       nextToken?: string | null,
@@ -1660,10 +1757,18 @@ export type OnDeleteParticipantInviteResponseSubscription = {
     __typename: "ParticipantInviteResponse",
     createdAt: string,
     email: string,
-    eventId: string,
+    event?:  {
+      __typename: "Event",
+      createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null,
+    eventId?: string | null,
     id: string,
     name: string,
-    owner?: string | null,
+    owner: string,
     updatedAt: string,
   } | null,
 };
@@ -1676,6 +1781,7 @@ export type OnDeleteParticipantPairingGenerationSubscriptionVariables = {
 export type OnDeleteParticipantPairingGenerationSubscription = {
   onDeleteParticipantPairingGeneration?:  {
     __typename: "ParticipantPairingGeneration",
+    complete: boolean,
     createdAt: string,
     event?:  {
       __typename: "Event",
@@ -1692,7 +1798,7 @@ export type OnDeleteParticipantPairingGenerationSubscription = {
       __typename: "ModelParticipantPairingGenerationPairConnection",
       nextToken?: string | null,
     } | null,
-    totalParticipants: number,
+    totalParticipants?: number | null,
     updatedAt: string,
   } | null,
 };
@@ -1712,11 +1818,12 @@ export type OnDeleteParticipantPairingGenerationPairSubscription = {
     owner: string,
     participantPairingGeneration?:  {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null,
     participantPairingGenerationId?: string | null,
@@ -1770,6 +1877,10 @@ export type OnUpdateEventSubscription = {
     id: string,
     name: string,
     owner?: string | null,
+    participantInviteResponses?:  {
+      __typename: "ModelParticipantInviteResponseConnection",
+      nextToken?: string | null,
+    } | null,
     participantPairingGenerations?:  {
       __typename: "ModelParticipantPairingGenerationConnection",
       nextToken?: string | null,
@@ -1817,10 +1928,18 @@ export type OnUpdateParticipantInviteResponseSubscription = {
     __typename: "ParticipantInviteResponse",
     createdAt: string,
     email: string,
-    eventId: string,
+    event?:  {
+      __typename: "Event",
+      createdAt: string,
+      id: string,
+      name: string,
+      owner?: string | null,
+      updatedAt: string,
+    } | null,
+    eventId?: string | null,
     id: string,
     name: string,
-    owner?: string | null,
+    owner: string,
     updatedAt: string,
   } | null,
 };
@@ -1833,6 +1952,7 @@ export type OnUpdateParticipantPairingGenerationSubscriptionVariables = {
 export type OnUpdateParticipantPairingGenerationSubscription = {
   onUpdateParticipantPairingGeneration?:  {
     __typename: "ParticipantPairingGeneration",
+    complete: boolean,
     createdAt: string,
     event?:  {
       __typename: "Event",
@@ -1849,7 +1969,7 @@ export type OnUpdateParticipantPairingGenerationSubscription = {
       __typename: "ModelParticipantPairingGenerationPairConnection",
       nextToken?: string | null,
     } | null,
-    totalParticipants: number,
+    totalParticipants?: number | null,
     updatedAt: string,
   } | null,
 };
@@ -1869,11 +1989,12 @@ export type OnUpdateParticipantPairingGenerationPairSubscription = {
     owner: string,
     participantPairingGeneration?:  {
       __typename: "ParticipantPairingGeneration",
+      complete: boolean,
       createdAt: string,
       eventId?: string | null,
       id: string,
       owner: string,
-      totalParticipants: number,
+      totalParticipants?: number | null,
       updatedAt: string,
     } | null,
     participantPairingGenerationId?: string | null,

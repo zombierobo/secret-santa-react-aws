@@ -26,13 +26,9 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
           setEvent(eventData);
           await Promise.all([
             eventData.participants().then((r) => setParticipants(r.data)),
-            client.queries
-              .participantInvitesAcceptedDataFetcher({
-                eventId,
-              })
-              .then((r) => {
-                setInviteAcceptedParticipants(r.data ?? []);
-              }),
+            eventData
+              .participantInviteResponses()
+              .then((r) => setInviteAcceptedParticipants(r.data ?? [])),
           ]);
         }
       } else {

@@ -2,7 +2,6 @@ import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { participantLandingPageDataFetcher } from "../functions/participant-landing-page-data-fetcher/resource";
 import { participantInviteResponseMutation } from "../functions/participant-invite-response-mutation/resource";
 import { postConfirmation } from "../auth/post-confirmation/resource";
-import { participantInvitesAcceptedDataFetcher } from "../functions/participant-invites-accepted-data-fetcher/resource";
 import { generateParticipantPairingMutation } from "../functions/generate-participant-pairing-mutation/resource";
 
 const schema = a
@@ -28,6 +27,10 @@ const schema = a
             allow.owner(),
           ]),
         participants: a.hasMany("Participant", "eventId"),
+        participantInviteResponses: a.hasMany(
+          "ParticipantInviteResponse",
+          "eventId"
+        ),
         participantPairingGenerations: a.hasMany(
           "ParticipantPairingGeneration",
           "eventId"
@@ -54,7 +57,9 @@ const schema = a
       .model({
         name: a.string().required(),
         email: a.string().required(),
-        eventId: a.id().required(),
+        eventId: a.id(),
+        event: a.belongsTo("Event", "eventId"),
+        owner: a.id().required(),
       })
       .authorization((allow) => [allow.owner()]),
 
@@ -101,28 +106,6 @@ const schema = a
       .authorization((allow) => [allow.guest()])
       .handler(a.handler.function(participantLandingPageDataFetcher)),
 
-    ParticipantInvitesAcceptedDataFetcherResponse: a.customType({
-      name: a.string().required(),
-      email: a.string().required(),
-      id: a.string().required(),
-    }),
-
-    participantInvitesAcceptedDataFetcher: a
-      .query()
-      .arguments({
-        eventId: a.string().required(),
-      })
-      .returns(
-        a
-          .ref("ParticipantInvitesAcceptedDataFetcherResponse")
-          .required()
-          .array()
-      )
-      .authorization((allow) => [
-        allow.authenticated(), // TODO: make sure organizer cannot fetch another organizer's participants
-      ])
-      .handler(a.handler.function(participantInvitesAcceptedDataFetcher)),
-
     ParticipantInviteResponseMutationResponse: a.customType({
       success: a.boolean().required(),
     }),
@@ -140,16 +123,6 @@ const schema = a
 
     GenerateParticipantPairingMutationResponse: a.customType({
       success: a.boolean(),
-      // gifter: a.customType({
-      //   id: a.string().required(),
-      //   name: a.string().required(),
-      //   email: a.string(), // empty emails fails to serialize when using a.email()
-      // }),
-      // receiver: a.customType({
-      //   id: a.string().required(),
-      //   name: a.string().required(),
-      //   email: a.string(),
-      // }),
     }),
 
     generateParticipantPairingMutation: a
@@ -165,7 +138,6 @@ const schema = a
   })
   .authorization((allow) => [
     allow.resource(participantLandingPageDataFetcher),
-    allow.resource(participantInvitesAcceptedDataFetcher),
     allow.resource(participantInviteResponseMutation),
     allow.resource(generateParticipantPairingMutation),
     allow.resource(postConfirmation),

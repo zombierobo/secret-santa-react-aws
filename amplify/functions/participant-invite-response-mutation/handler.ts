@@ -5,75 +5,46 @@ import { env } from "$amplify/env/participant-invite-response-mutation"; // the 
 import { getEvent } from "../../graphql/queries";
 import { createParticipantInviteResponse } from "../../graphql/mutations";
 
-Amplify.configure(
-  {
-    API: {
-      GraphQL: {
-        endpoint: env.AMPLIFY_DATA_GRAPHQL_ENDPOINT,
-        region: env.AWS_REGION,
-        defaultAuthMode: "iam",
-      },
-    },
-  },
-  {
-    Auth: {
-      credentialsProvider: {
-        getCredentialsAndIdentityId: async () => ({
-          credentials: {
-            accessKeyId: env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
-            sessionToken: env.AWS_SESSION_TOKEN,
-          },
-        }),
-        clearCredentialsAndIdentityId: () => {
-          /* noop */
-        },
-      },
-    },
-  }
-);
+import { getAmplifyDataClientConfig } from "@aws-amplify/backend/function/runtime";
+import { fetchEvent, nullThrows } from "../common-functions";
 
-const client = generateClient<Schema>({
-  authMode: "iam",
-});
+const { resourceConfig, libraryOptions } =
+  await getAmplifyDataClientConfig(env);
+
+Amplify.configure(resourceConfig, libraryOptions);
+
+const client = generateClient<Schema>();
 
 export const handler: Schema["participantInviteResponseMutation"]["functionHandler"] =
   async (event, _context) => {
-    const eventData = await client.graphql({
-      query: getEvent,
-      variables: {
-        id: event.arguments.eventId,
-      },
-    });
-    if (eventData.errors) {
-      console.error("error while fetching event", eventData.errors);
-      throw new Error("error while fetching event");
-    }
-    const eventObject = eventData.data.getEvent;
-    if (!eventObject) {
-      throw new Error("event could not be loaded");
-    }
-
-    try {
-      const { errors } = await client.graphql({
-        query: createParticipantInviteResponse,
-        variables: {
-          input: {
-            eventId: eventObject.id,
-            name: event.arguments.name,
-            email: event.arguments.email,
-          },
+    const eventObject = await fetchEvent(
+      client,
+      event.arguments.eventId,
+      "iam"
+    );
+    const { errors, data } =
+      await client.models.ParticipantInviteResponse.create(
+        {
+          eventId: eventObject.id,
+          name: event.arguments.name,
+          email: event.arguments.email,
+          owner: nullThrows(eventObject.owner),
         },
-      });
-
-      if (errors) {
-        console.error("Accepting Invite failed." + JSON.stringify(errors));
-        throw new Error("Accepting Invite failed.");
-      }
-    } catch (err) {
-      console.error("Accepting Invite failed." + JSON.stringify(err));
-      throw new Error("Accepting Invite failed.");
+        {
+          authMode: "iam",
+        }
+      );
+    // try {
+    if (errors) {
+      console.error("v11 Accepting Invite failed." + JSON.stringify(errors));
+      throw new Error("v1 Accepting Invite failed." + JSON.stringify(errors));
     }
+    nullThrows(data?.id, "model id should not be null");
+
+    // } catch (err) {
+    //   console.error("v1 Accepting Invite failed." + JSON.stringify(err));
+    //   throw new Error("v11 Accepting Invite failed." + JSON.stringify(err));
+    // }
     return {
       success: true,
     };

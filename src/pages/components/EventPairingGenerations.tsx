@@ -48,7 +48,7 @@ function EventPairingGenerations({ eventId }: { eventId: string }) {
         <>
           <h3>Generated pairs</h3>
           <ul>
-            {generations.map((g) => (
+            {generations.slice(0, 5).map((g) => (
               <li key={g.id}>
                 <p>
                   This generation has {g.totalParticipants} participants.
@@ -62,6 +62,11 @@ function EventPairingGenerations({ eventId }: { eventId: string }) {
               </li>
             ))}
           </ul>
+          {generations.length > 5 ? (
+            <p>
+              Showing <b>{5}</b> out of <b>{generations.length}</b> generations.
+            </p>
+          ) : null}
         </>
       )}
     </>

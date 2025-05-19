@@ -9,3 +9,25 @@ export type ParticipantPairingGenerationType =
 export type ParticipantPairingGenerationPairType =
   Schema["ParticipantPairingGenerationPair"]["type"];
 export type UserProfileType = Schema["UserProfile"]["type"];
+
+export const selectionSetForGenerationOfPairsForSubscription: Array<
+  | "id"
+  | "owner"
+  | "complete"
+  | "eventId"
+  | "totalParticipants"
+  | "createdAt"
+  | "failed"
+  | "failureReason"
+  | "jobDebugDetails"
+> = [
+  "id",
+  "owner",
+  "complete",
+  "eventId",
+  "totalParticipants",
+  "createdAt",
+  "failed",
+  "failureReason",
+  "jobDebugDetails",
+];

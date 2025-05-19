@@ -6,6 +6,7 @@ import type { EventType } from "../../amplify/data/exported-types";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../amplify/data/resource";
 import GreetingMessage from "./components/GreetingMessage";
+import { timeAgo } from "../utils/timeAgo";
 
 const client = generateClient<Schema>();
 
@@ -13,7 +14,13 @@ function EventListPage() {
   const [events, setEvents] = useState<Array<EventType>>([]);
   useEffect(() => {
     client.models.Event.observeQuery().subscribe({
-      next: (data) => setEvents([...data.items]),
+      next: (data) =>
+        setEvents(
+          [...data.items].sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        ),
     });
   }, []);
   function createEvent() {
@@ -28,7 +35,9 @@ function EventListPage() {
       <ul>
         {events.map((event) => (
           <li key={event.id}>
-            <Link to={"/events/" + event.id}>{event.name}</Link>
+            <Link to={"/events/" + event.id}>
+              {event.name}, created {timeAgo(new Date(event.createdAt))}
+            </Link>
           </li>
         ))}
       </ul>

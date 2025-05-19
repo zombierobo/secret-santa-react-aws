@@ -74,6 +74,9 @@ const schema = a
         ),
         owner: a.id().required(),
         complete: a.boolean().required(),
+        failed: a.boolean(),
+        failureReason: a.string(),
+        jobDebugDetails: a.string(),
       })
       .authorization((allow) => [allow.owner()]),
 

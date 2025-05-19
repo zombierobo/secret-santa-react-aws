@@ -6,6 +6,7 @@ import { env } from "$amplify/env/generate-participant-pairing-mutation"; // the
 import { generateSecretSantaWithExclusions } from "./pairing-algo";
 import { getAmplifyDataClientConfig } from "@aws-amplify/backend/function/runtime";
 import { fetchEvent, nullThrows } from "../common-functions";
+import { selectionSetForGenerationOfPairsForSubscription } from "../../data/exported-types";
 
 const { resourceConfig, libraryOptions } =
   await getAmplifyDataClientConfig(env);
@@ -20,11 +21,16 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
     const eventObject = await fetchEvent(client, event.arguments.eventId);
     const eventOwner = nullThrows(eventObject.owner);
 
-    const res = await client.models.ParticipantPairingGeneration.create({
-      eventId,
-      owner: eventOwner,
-      complete: false,
-    });
+    const res = await client.models.ParticipantPairingGeneration.create(
+      {
+        eventId,
+        owner: eventOwner,
+        complete: false,
+      },
+      {
+        selectionSet: selectionSetForGenerationOfPairsForSubscription,
+      }
+    );
     const participantPairingGenerationId = nullThrows(res.data).id;
 
     const [manualParticipants, inviteAcceptedResponses] = await Promise.all([
@@ -93,15 +99,33 @@ export const handler: Schema["generateParticipantPairingMutation"]["functionHand
           });
         })
       );
-      if (res2.every((c) => (c.data?.id.length ?? 0) > 0)) {
+      const allWritesSuccessful = res2.every(
+        (c) => (c.data?.id.length ?? 0) > 0 && (c.errors?.length ?? 0) === 0
+      );
+      const totalWritesEqualsExpected = res2.length === totalParticipants;
+      if (allWritesSuccessful && totalWritesEqualsExpected) {
+        await client.models.ParticipantPairingGeneration.update(
+          {
+            id: participantPairingGenerationId,
+            totalParticipants,
+            complete: true,
+          }
+          // {
+          //   selectionSet: selectionSetForGenerationOfPairsForSubscription,
+          // }
+        );
+      } else {
         await client.models.ParticipantPairingGeneration.update({
           id: participantPairingGenerationId,
           totalParticipants,
-          complete: true,
+          complete: false,
+          failed: true,
+          failureReason: `allWritesSuccessful ${allWritesSuccessful} , totalWritesEqualsExpected = ${totalWritesEqualsExpected}`,
+          jobDebugDetails: `totalParticipants fetched = ${totalParticipants}`,
         });
-        return;
-      } else {
-        return;
+        throw new Error(
+          "Not all objects are written successfully during generation"
+        );
       }
     } catch (err) {
       throw new Error("Failed to write pairings to DB." + JSON.stringify(err));

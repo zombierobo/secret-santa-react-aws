@@ -7,10 +7,8 @@ import { ParticipantPairingGenerationPairType } from "../../../amplify/data/expo
 const client = generateClient<Schema>();
 function RenderPairingGeneration({
   participantPairingGenerationId,
-  totalParticipants,
 }: {
   participantPairingGenerationId: string;
-  totalParticipants?: number | null;
 }) {
   const [items, setItems] = useState<
     Array<ParticipantPairingGenerationPairType>
@@ -23,22 +21,24 @@ function RenderPairingGeneration({
         },
       },
     }).subscribe({
-      next: (data) => setItems([...data.items]),
+      next: (data) =>
+        setItems(
+          [...data.items].sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        ),
     });
   }, []);
   return (
     <div>
-      This generation has {totalParticipants} participants
-      <div>
-        {items.map((g) => (
-          <div key={g.id}>
-            {g.gifterName}
-            {g.gifterEmail ? `(${g.gifterEmail})` : ""} gifts to{" "}
-            {g.receiverName}
-            {g.receiverEmail ? `${g.receiverEmail}` : ""}
-          </div>
-        ))}
-      </div>
+      {items.map((g) => (
+        <div key={g.id}>
+          {g.gifterName}
+          {g.gifterEmail ? `(${g.gifterEmail})` : ""} gifts to {g.receiverName}
+          {g.receiverEmail ? `(${g.receiverEmail})` : ""}
+        </div>
+      ))}
     </div>
   );
 }

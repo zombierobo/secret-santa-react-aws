@@ -30,7 +30,7 @@ function EventListPage() {
   return (
     <>
       <GreetingMessage />
-      <h1>Your secret santa events</h1>
+      <h1 className="event-list-page-heading">Your secret santa events</h1>
       <button onClick={createEvent}>+ new</button>
       <ul>
         {events.map((event) => (

@@ -1,3 +1,9 @@
+// import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
+// import { Amplify } from "aws-amplify";
+// import outputs from "../../amplify_outputs.json";
+
+// Amplify.configure(outputs);
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite

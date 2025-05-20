@@ -1,4 +1,11 @@
 import { defineConfig } from "cypress";
+import { fromNodeProviderChain } from "@aws-sdk/credential-providers";
+import preprocessor from "@cypress/webpack-preprocessor";
+
+async function resolveAWSCreds(config) {
+  config.env.awscredentials = await fromNodeProviderChain()();
+  return config;
+}
 
 export default defineConfig({
   e2e: {
@@ -8,7 +15,9 @@ export default defineConfig({
     video: false,
     screenshotOnRunFailure: true,
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on("file:preprocessor", preprocessor({}));
+      config.baseUrl = "http://localhost:5173";
+      return resolveAWSCreds(config);
     },
   },
   component: {

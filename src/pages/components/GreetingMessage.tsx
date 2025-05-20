@@ -24,7 +24,9 @@ function GreetingMessage() {
     <>
       <h1>Hi {loggedInUserEmail} </h1>
 
-      <h1>Welcome to Secret Santa events manager!</h1>
+      <h1 className="user-greeting-message">
+        Welcome to Secret Santa events manager!
+      </h1>
       <button onClick={signOut}>Sign out</button>
     </>
   ) : (

@@ -30,6 +30,7 @@
     "@cypress/code-coverage": "^3.14.3",
     "@cypress/webpack-preprocessor": "^6.0.4",
     "@testing-library/cypress": "^10.0.3",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.15.18",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

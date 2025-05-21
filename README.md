@@ -54,3 +54,26 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
+
+## Tasks
+
+- Missing Feature - Exclusion rules between participants (both backend and frontend)
+- UI improvements
+  . Error handling
+  . Better UX. See rough design in wireframe.png
+- Automated tests
+  - Frontend component testing
+  - Unit test for random assignments
+  - Fix CI in aws amplify.yml
+  - E2E test case for assignments generation
+- Logging and monitoring plan
+
+## Nice to haves
+
+- lambdas doing large number of transaction while generation
+- Cloudfare protection on unauthenticated pages
+- Field formatting validations in schema
+- rate limits on unauthenticated endpoint
+- lazy load frontend modules for faster page loads
+- invite link is long uuids, would be nice to shorten it.
+- pagination on participants page

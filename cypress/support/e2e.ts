@@ -13,7 +13,10 @@ Amplify.configure(outputs);
 
 Cypress.Commands.add("authenticate", async () => {
   const ssmClient = new SSMClient({
-    credentials: Cypress.env("awscredentials"),
+    credentials: {
+      ...Cypress.env("awscredentials"),
+      expiration: new Date(), // avoid exception in deep stack
+    },
     region: outputs.data.aws_region,
   });
 

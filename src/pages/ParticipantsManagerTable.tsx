@@ -28,19 +28,26 @@ function ParticipantsManagerTable(props: {
   };
   return (
     <div>
-      <h1>Participants of this event</h1>
+      {props.participants.length > 0 ||
+      props.inviteAcceptedParticipants.length > 0 ? (
+        <div>
+          <h3>Participants of this event</h3>
 
-      <ul>
-        {props.participants.map((p) => (
-          <li key={p.id}> Manually added - {p.name}</li>
-        ))}
-        {props.inviteAcceptedParticipants.map((p) => (
-          <li key={p.id}>
-            {" "}
-            Invite accepted - {p.name} {p.email}
-          </li>
-        ))}
-      </ul>
+          <ul>
+            {props.participants.map((p) => (
+              <li key={p.id}> Manually added - {p.name}</li>
+            ))}
+            {props.inviteAcceptedParticipants.map((p) => (
+              <li key={p.id}>
+                {" "}
+                Invite accepted - {p.name} {p.email}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Currently no participants in this event</p>
+      )}
       <div>
         <button onClick={createParticipant}>+ add participant</button>
         <span>OR</span>

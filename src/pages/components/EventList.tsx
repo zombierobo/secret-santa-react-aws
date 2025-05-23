@@ -29,8 +29,7 @@ function EventList() {
   }
   return (
     <>
-      <h1 className="event-list-page-heading">Your secret santa events</h1>
-      <button onClick={createEvent}>+ new event</button>
+      <p className="event-list-page-heading">Your secret santa events</p>
       <ul>
         {events.map((event) => (
           <li key={event.id}>
@@ -44,6 +43,9 @@ function EventList() {
           </li>
         ))}
       </ul>
+      <button className="event-list-new-event-btn" onClick={createEvent}>
+        + new event
+      </button>
     </>
   );
 }

@@ -46,7 +46,6 @@ function EventPairingGenerations({ eventId }: { eventId: string }) {
     <>
       {generations.length > 0 && (
         <>
-          <h3>Generated pairs</h3>
           <ul>
             {generations.slice(0, 5).map((g) => (
               <li key={g.id}>

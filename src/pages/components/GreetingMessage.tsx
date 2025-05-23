@@ -20,15 +20,14 @@ function GreetingMessage({ onSignOut }: { onSignOut: () => void }) {
 
   return loggedInUserEmail ? (
     <>
-      <h1>Hi {loggedInUserEmail} </h1>
-
-      <h1 className="user-greeting-message">
-        Welcome to Secret Santa events manager!
-      </h1>
-      <button onClick={onSignOut}>Sign out</button>
+      <p className="user-greeting-message">
+        {" "}
+        Hi {loggedInUserEmail}, Welcome to Secret Santa events manager!{" "}
+        <a onClick={onSignOut}>Sign out</a>
+      </p>
     </>
   ) : (
-    <h1>Welcome to Secret Santa events manager!</h1>
+    <p>Welcome to Secret Santa events manager!</p>
   );
 }
 

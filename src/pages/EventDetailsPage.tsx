@@ -7,6 +7,7 @@ import { Schema } from "../../amplify/data/resource";
 import GreetingMessage from "./components/GreetingMessage";
 import EventPairingGenerations from "./components/EventPairingGenerations";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Breadcrumbs } from "@aws-amplify/ui-react";
 const client = generateClient<Schema>();
 
 function EventDetailsPageContent({ eventId }: { eventId: string }) {
@@ -77,21 +78,40 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
   return (
     <>
       <GreetingMessage onSignOut={signOut} />
-      {eventName && <h1>Secret Santa Event name: {eventName}</h1>}
 
-      {totalParticipantCount > 2 && (
-        <div>
-          <button onClick={generatePairings}>Generate pairings</button>
+      <Breadcrumbs
+        items={[
+          {
+            href: "/",
+            label: "Home",
+          },
 
-          <EventPairingGenerations eventId={eventId} />
-        </div>
+          {
+            label: eventName,
+          },
+        ]}
+      />
+      {eventName && (
+        <p>
+          Secret Santa Event name: <b>{eventName}</b>
+        </p>
       )}
+
       <ParticipantsManagerTable
         participants={participants}
         inviteAcceptedParticipants={inviteAcceptedParticipants}
         addParticipant={createParticipant}
         eventId={eventId ?? ""}
       />
+
+      {totalParticipantCount > 2 && (
+        <div>
+          <h3>Generated pairs</h3>
+          <button onClick={generatePairings}>+ Generate pairings</button>
+
+          <EventPairingGenerations eventId={eventId} />
+        </div>
+      )}
     </>
   );
 }

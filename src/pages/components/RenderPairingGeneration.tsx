@@ -31,15 +31,15 @@ function RenderPairingGeneration({
     });
   }, []);
   return (
-    <div>
+    <ol>
       {items.map((g) => (
-        <div key={g.id}>
+        <li key={g.id}>
           {g.gifterName}
           {g.gifterEmail ? `(${g.gifterEmail})` : ""} gifts to {g.receiverName}
           {g.receiverEmail ? `(${g.receiverEmail})` : ""}
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
 

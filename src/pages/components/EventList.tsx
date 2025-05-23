@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import type { EventType } from "../../amplify/data/exported-types";
+import type { EventType } from "../../../amplify/data/exported-types";
 import { generateClient } from "aws-amplify/data";
-import { Schema } from "../../amplify/data/resource";
-import GreetingMessage from "./components/GreetingMessage";
-import { timeAgo } from "../utils/timeAgo";
+import { Schema } from "../../../amplify/data/resource";
+
+import EventListItem from "./EventListItem";
 
 const client = generateClient<Schema>();
 
-function EventListPage() {
+function EventList() {
   const [events, setEvents] = useState<Array<EventType>>([]);
   useEffect(() => {
     client.models.Event.observeQuery().subscribe({
@@ -29,14 +29,17 @@ function EventListPage() {
   }
   return (
     <>
-      <GreetingMessage />
       <h1 className="event-list-page-heading">Your secret santa events</h1>
-      <button onClick={createEvent}>+ new</button>
+      <button onClick={createEvent}>+ new event</button>
       <ul>
         {events.map((event) => (
           <li key={event.id}>
             <Link to={"/events/" + event.id}>
-              {event.name}, created {timeAgo(new Date(event.createdAt))}
+              <EventListItem
+                eventId={event.id}
+                eventName={event.name}
+                eventCreatedAt={event.createdAt}
+              />
             </Link>
           </li>
         ))}
@@ -45,4 +48,4 @@ function EventListPage() {
   );
 }
 
-export default EventListPage;
+export default EventList;

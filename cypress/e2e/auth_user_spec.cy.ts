@@ -24,7 +24,6 @@ describe("Authenticated User Cases:", function () {
   });
   describe("event lists page", () => {
     it("should display username greeting", () => {
-      cy.visit("/events");
       cy.get(".event-list-page-heading").contains("Your secret santa events");
     });
   });

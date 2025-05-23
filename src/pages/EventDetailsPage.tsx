@@ -6,6 +6,7 @@ import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../amplify/data/resource";
 import GreetingMessage from "./components/GreetingMessage";
 import EventPairingGenerations from "./components/EventPairingGenerations";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 const client = generateClient<Schema>();
 
 function EventDetailsPageContent({ eventId }: { eventId: string }) {
@@ -14,6 +15,7 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
   const [inviteAcceptedParticipants, setInviteAcceptedParticipants] = useState<
     Array<{ name: string; email: string; id: string }>
   >([]);
+  const { signOut } = useAuthenticator();
 
   useEffect(() => {
     (async function () {
@@ -74,7 +76,7 @@ function EventDetailsPageContent({ eventId }: { eventId: string }) {
 
   return (
     <>
-      <GreetingMessage />
+      <GreetingMessage onSignOut={signOut} />
       {eventName && <h1>Secret Santa Event name: {eventName}</h1>}
 
       {totalParticipantCount > 2 && (

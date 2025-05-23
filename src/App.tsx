@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import EventListPage from "./pages/EventListPage";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import ParticipantJoinEventLandingPage from "./pages/ParticipantJoinEventLandingPage";
 import { Authenticator } from "@aws-amplify/ui-react";
@@ -17,14 +16,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route
-        path="/events"
-        element={
-          <Authenticator>
-            <EventListPage />
-          </Authenticator>
-        }
-      />
+
       <Route
         path="/events/:eventId"
         element={

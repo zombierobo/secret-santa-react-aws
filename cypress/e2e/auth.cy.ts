@@ -1,6 +1,7 @@
 describe("Authentication", () => {
   beforeEach(() => {
-    cy.visit("/events");
+    cy.visit("/");
+    cy.get(".home-page-loggedout-create-event-btn").click();
   });
 
   it("should display the login form", () => {
